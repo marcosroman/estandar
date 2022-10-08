@@ -1,0 +1,23 @@
+<head>
+	<style>
+		.tinyimage {
+			width:100px;
+		}
+	</style>
+</head>
+
+<body>
+<table>
+{% for e in estandar %}
+		<tr>
+			<td><img class="tinyimage" src="/media/{{e.imagen}}"></img></td>
+			<td>
+				<a href="codigos/{{e.id}}">
+				{{e.codigo}}
+				</a>
+			</td>
+		</tr>
+	</a>
+{% endfor %}
+</table>
+</body>

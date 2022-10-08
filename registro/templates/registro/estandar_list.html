@@ -1,0 +1,12 @@
+<ul>
+{% for codigo in object_list %}
+	<li>
+		<a href="codigos/{{codigo.id}}">
+			{{ codigo.codigo }} ({{codigo.id}})
+		</a>
+	</li>
+{% empty %}
+    <li>Sin codigos registrados.</li>
+{% endfor %}
+</ul>
+

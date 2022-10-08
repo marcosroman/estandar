@@ -1,0 +1,33 @@
+- model: registro.categoria
+  pk: 1
+  fields:
+    categoria: Batientes
+- model: registro.categoria
+  pk: 2
+  fields:
+    categoria: Corredizas
+- model: registro.categoria
+  pk: 3
+  fields:
+    categoria: Pivotantes
+- model: registro.categoria
+  pk: 4
+  fields:
+    categoria: Basculantes
+- model: registro.categoria
+  pk: 5
+  fields:
+    categoria: Banderolas
+- model: registro.categoria
+  pk: 6
+  fields:
+    categoria: Soportes
+- model: registro.categoria
+  pk: 7
+  fields:
+    categoria: Laterales Fijos
+- model: registro.categoria
+  pk: 8
+  fields:
+    categoria: Paños fijos para fachada
+

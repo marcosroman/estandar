@@ -8,13 +8,14 @@ class RegistroForm(ModelForm):
         model = Estandar
         fields = '__all__'
 
-class ComentariosEstandarForm(ModelForm):
+class ComentariosForm(ModelForm):
     class Meta:
-        model = ComentariosEstandar
-        fields = '__all__'
+        model = Comentarios
+        #fields = '__all__'
+        exclude = ['codigo']
 
-
-#RegistroFormSet = formset_factory(Estandar,ComentariosEstandar,form=ComentariosEstandarForm)
-RegistroFormSet = formset_factory(ComentariosEstandar)
-
+    def save(self, codigo, commit=True):
+        self.instance.codigo = Estandar.objects.get(codigo=codigo)#Estandar.objects.first() #just testing...
+        self.instance.save()
+        return super(ComentariosForm, self).save(commit=commit)
 
