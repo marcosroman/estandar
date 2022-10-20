@@ -1,6 +1,25 @@
+<style>
+	body {
+		text-align: center;
+	}
+	form {
+		display: inline-block;
+	}
+</style>
+
 <form action='' method="get">
 	<!--{% csrf_token %}-->
+
+	{# aca quiero poner: un dropbox o textbox con autocomplete... y que se pueda filtrar por categoria! #}
 	<input type="text" id='codigo'>
 	<br>
 	<input type="submit" value="Buscar">
 </form>
+
+<br>
+<br>
+<a href="/codigos">Lista de Codigos</a>
+<br>
+<a href='/nuevo'>Nuevo Codigo</a>
+
+

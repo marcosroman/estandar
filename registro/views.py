@@ -15,12 +15,14 @@ def buscador(request):
     tambien puede ser buscar por comentarios (y mostrar ahi matches)
     '''
     #if (request.method == "POST"):
+
     return render(request, template_name="registro/buscador.html")
 
 
 def registro(request):
     if request.method == "POST":
         form=forms.RegistroForm(request.POST, request.FILES)
+        form.fields['imagen'].required=False
         if form.is_valid():
             formtosave=form.save()
             codigo=formtosave.codigo
@@ -31,57 +33,24 @@ def registro(request):
         form=forms.RegistroForm()
 
     return render(request,
-                  template_name="registro/index.html",
+                  template_name="registro/nuevo.html",
                   context={'form':form})
-
-#def comentarios(request):
-#    if request.method == "POST":
-#        if('codigo' not in request.POST.keys):
-#            print("no me paso el codigo")
-#            form=forms.ComentariosForm(request.POST, request.FILES)
-#            if form.is_valid():
-#                form.save().save()
-#                return HttpResponseRedirect('/')
-#        else:
-#            print("tengo el codigo")
-#            form=forms.ComentariosForm()
-#    else:
-#        print("boludo esto es get")
-#        form=forms.ComentariosForm()
-#    
-#    return render(request,
-#                  template_name="registro/comentarios.html",
-#                  context={'form':form})
 
 def comentarios(request):
     ComentariosFormSet = formset_factory(forms.ComentariosForm)
     codigo=request.GET.get('codigo') 
     if request.method == "POST":
-        #codigo_id=request.POST.get('codigoid')
-        #print('codigo_id='+str(codigo_id))
-        #if codigo:
-        #print("formset valid?:"+str(formset.is_valid()))
-
-        #request.POST['estandarobj']=estandarobj
-        #print('!codigo is '+codigo)
         formset=ComentariosFormSet(request.POST)
         if formset.is_valid():
             for form in formset:
-                form.save(codigo=codigo) #.save()
-                # solo un save es necesario, el metodo save ya hace doble save (?)
-            estandarid=models.Estandar.objects.get(codigo=codigo).id
-            return HttpResponseRedirect('/codigos/'+str(estandarid)) # para probar
+                form.save(codigo=codigo)
+            return HttpResponseRedirect('/codigos/'+codigo)
     else:
         formset = ComentariosFormSet()
-        # verify if this 'codigo' actually exists... 404 if not found
         estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
-
-        #request.POST['codigoid']=codigo_id
-        #codigo_id=obj.id
-
+    
     return render(request,
                   template_name="registro/comentariosformset.html",
-                  #context={'formset':formset,'codigo':codigo,'codigoid':codigo_id})
                   context={'formset':formset,'codigo':codigo})
 
 class EstandarList(ListView):
@@ -89,6 +58,8 @@ class EstandarList(ListView):
 
 class EstandarDetail(DetailView):
     model = models.Estandar
+    # https://stackoverflow.com/questions/68512060/slugfield-not-working-if-field-name-is-different-from-slug
+    slug_field = 'codigo'
     
     # https://stackoverflow.com/questions/14936160/django-detailview-how-to-display-two-models-at-same-time#14936328
     def get_context_data(self, **kwargs):

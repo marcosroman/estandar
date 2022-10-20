@@ -8,15 +8,12 @@ class Categoria(models.Model):
 
 class Estandar(models.Model):
     #codigo = models.CharField(max_length=20)
-    codigo = models.SlugField()
+    codigo = models.SlugField(unique=True)
     imagen = models.ImageField(upload_to='imagenes')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.codigo
-
-    class Meta:
-        constraints=(models.UniqueConstraint(fields=['codigo'],name='unique_codigo'),)
 
 class Comentarios(models.Model):
     codigo=models.ForeignKey(Estandar, on_delete=models.CASCADE)
@@ -24,4 +21,7 @@ class Comentarios(models.Model):
     comentario=models.CharField(max_length=100)
 
     class Meta:
-        constraints=(models.UniqueConstraint(fields=['codigo','comentario'], name='unique_comentario'),)
+        constraints=(
+                models.UniqueConstraint(fields=['codigo','comentario'],
+                                        name='unique_comentario'),)
+
