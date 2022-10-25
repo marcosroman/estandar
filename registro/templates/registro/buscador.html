@@ -1,12 +1,6 @@
-<style>
-	body {
-		text-align: center;
-	}
-	form {
-		display: inline-block;
-	}
-</style>
+{% extends "registro/base.html" %}
 
+{% block content %}
 <form action='' method="get">
 	<!--{% csrf_token %}-->
 
@@ -15,11 +9,5 @@
 	<br>
 	<input type="submit" value="Buscar">
 </form>
-
-<br>
-<br>
-<a href="/codigos">Lista de Codigos</a>
-<br>
-<a href='/nuevo'>Nuevo Codigo</a>
-
+{% endblock %}
 

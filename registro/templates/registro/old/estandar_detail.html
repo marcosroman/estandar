@@ -1,24 +1,29 @@
-{% extends "./base.html" %}
+{% load static %}
 
-{% block content %}
+<!--codigo: {{object.codigo}}-->
+
 <h2>{{object.codigo}}</h2>
 <b>Categoria:</b> {{object.categoria}}
 
 <br><br>
+<!--
+<br>
+imagen: {{object.imagen}}
+<br><br>
+-->
+
+
+<!--https://stackoverflow.com/questions/18040941/load-static-file-with-variable-name-in-django-->
+<!--<img src="{% static '' %}{{ object.imagen }}">-->
 
 <!-- ok for now this works... but after deployment it wont (not even when debug mode is off, accoding to the documentation-->
 <img width="300 px" src="/media/{{ object.imagen }}">
 
 <br><br>
-{# mostramos los comentarios si existen; si no, mostramos link para agregar comentarios #}
 {% if comentarios %}
 	<ul>
 	{% for c in comentarios %}
 	<li>{{c.comentario}}</li>
 	{% endfor %}
 	</ul>
-{% else %}
-	<a href="/comentarios?codigo={{object.codigo}}">Agregar comentarios</a>
 {% endif %}
-{% endblock %}
-

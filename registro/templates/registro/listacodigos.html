@@ -1,0 +1,19 @@
+{% extends 'registro/base.html' %}
+
+{% block content %}
+
+{# it works! of course this can be improved #}
+
+{% for categoria,codigo in codigos.items %}
+	{% if codigo %}
+	<h2>{{categoria}}</h2>
+	<ul>
+		{% for c in codigo %}
+		<li>{{c}}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+{% endfor %}
+
+{% endblock %}
+

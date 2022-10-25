@@ -1,12 +1,12 @@
+{% extends "./base.html" %}
+
+{% block content %}
 <ul>
 {% for codigo in object_list %}
-	<li>
-		<a href="codigos/{{codigo.codigo}}">
-			{{ codigo.codigo }}
-		</a>
-	</li>
+	<li><a href="codigos/{{codigo.codigo}}">{{codigo.codigo}}</a></li>
 {% empty %}
-    <li>Sin codigos registrados.</li>
+	<li>Sin codigos registrados.</li>
 {% endfor %}
 </ul>
+{% endblock %}
 

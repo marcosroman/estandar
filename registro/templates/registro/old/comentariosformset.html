@@ -1,14 +1,14 @@
-{% extends './base.html' %}
 {% load static %}
 
-{% block content %}
-<script type="text/javascript" src="{% static 'js/jquery-3.6.0.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery.formset.js' %}"></script>
-<script type="text/javascript">
-	$(function() {
-			$('#myform tbody tr').formset();
-	})
-</script>
+<head>
+	<script type="text/javascript" src="{% static 'js/jquery-3.6.0.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.formset.js' %}"></script>
+	<script type="text/javascript">
+    $(function() {
+        $('#myform tbody tr').formset();
+    })
+	</script>
+</head>
 
 <body>
 	<!--<form id="myform" action='/comentariosformset' method="post" enctype="multipart/form-data">-->
@@ -23,5 +23,3 @@
 	<input type="submit" value="Guardar">
 </form>
 </body>
-{% endblock %}
-

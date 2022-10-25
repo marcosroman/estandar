@@ -14,10 +14,8 @@ def buscador(request):
     incluso hacer un AND u OR (mostrar los que tengan alguna coincidencia con el codigo y/o con la categoria elegida)
     tambien puede ser buscar por comentarios (y mostrar ahi matches)
     '''
-    #if (request.method == "POST"):
 
     return render(request, template_name="registro/buscador.html")
-
 
 def registro(request):
     if request.method == "POST":
@@ -67,7 +65,18 @@ class EstandarDetail(DetailView):
         context['comentarios'] = models.Estandar.objects.get(id=context['object'].id).comentarios_set.all()
         return context
 
+# another view, little pics included
 def codigos_alt(request):
     return render(request,
                   template_name="registro/codigos-alt.html",
                   context = {'estandar':models.Estandar.objects.all()})
+
+def listacodigosporcategoria(request):
+    categorias=models.Categoria.objects.all()
+    codigos=dict(zip(categorias,
+                     map(lambda x: x.estandar_set.all(),
+                         categorias)))
+    return render(request,
+                  template_name="registro/listacodigos.html",
+                  context = {'codigos':codigos})
+

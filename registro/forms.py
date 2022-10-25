@@ -58,3 +58,13 @@ class ComentariosForm(ModelForm):
         self.instance.save()
         return super(ComentariosForm, self).save(commit=commit)
 
+class ComentariosForm(ModelForm):
+    class Meta:
+        model = Comentarios
+        exclude = ['codigo']
+
+    def save(self, codigo, commit=True):
+        self.instance.codigo = Estandar.objects.get(codigo=codigo)
+        self.instance.save()
+        return super(ComentariosForm, self).save(commit=commit)
+
