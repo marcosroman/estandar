@@ -2,8 +2,12 @@
 
 {% block content %}
 
-{# it works! of course this can be improved #}
+<form action='' method="post">
+	{% csrf_token %}
+	{{ selectfilter }}
+</form>
 
+{# it works! of course this can be improved #}
 {% for categoria,codigo in codigos.items %}
 	{% if codigo %}
 	<h2>{{categoria}}</h2>

@@ -1,7 +1,8 @@
 <nav>
 	<ul>
-		<li><a href="/codigos">Lista de Codigos</a></li>
-		<li><a href='/nuevo'>Nuevo Codigo</a></li>
+		<li><a href="{% url 'registro:codigosporcategoria' %}">Lista de Codigos (mejorada)</a></li>
+		<li><a href="{% url 'registro:codigos-listview' %}">Lista de Codigos</a></li>
+		<li><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Codigo</a></li>
 	</ul>
 </nav>
 
