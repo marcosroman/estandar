@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import formset_factory
-from . import models
-from . import forms
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from . import models
+from . import forms
 
 def buscador(request):
     # aca quiero poner algo asi como un buscador...
@@ -15,7 +16,7 @@ def buscador(request):
     tambien puede ser buscar por comentarios (y mostrar ahi matches)
     '''
 
-    return render(request, template_name="registro/buscador.html")
+    return render(request, template_name='registro/buscador.html')
 
 def registro(request):
     if request.method == "POST":
@@ -72,11 +73,28 @@ def codigos_alt(request):
                   context = {'estandar':models.Estandar.objects.all()})
 
 def listacodigosporcategoria(request):
-    categorias=models.Categoria.objects.all()
-    codigos=dict(zip(categorias,
-                     map(lambda x: x.estandar_set.all(),
-                         categorias)))
+    # dirty but works... refactor later (20221030)
+    if request.method == "POST":
+        filtro_value=request.POST['filtro']
+        if(filtro_value=="All"):
+            categorias = models.Categoria.objects.all()
+            codigos = dict(zip(categorias,
+                               map(lambda x: x.estandar_set.all(),
+                                   categorias)))
+        else:
+            categoria=models.Categoria.objects.get(categoria=filtro_value)
+            codigos=dict([(categoria,categoria.estandar_set.all())])
+        codigosfilter=forms.FilterCodigosForm(request.POST)
+    else:
+        categorias=models.Categoria.objects.all()
+        codigosfilter=forms.FilterCodigosForm()
+
+        codigos=dict(zip(categorias,
+                         map(lambda x: x.estandar_set.all(),
+                              categorias)))
+
     return render(request,
                   template_name="registro/listacodigos.html",
-                  context = {'codigos':codigos})
+                  context = {'codigos':codigos,
+                             'selectfilter':codigosfilter})
 

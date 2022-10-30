@@ -1,6 +1,6 @@
 import base64
 from django import forms
-from django.forms import ModelForm, widgets
+from django.forms import ModelForm, Form, widgets
 from django.forms.formsets import formset_factory
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -67,4 +67,11 @@ class ComentariosForm(ModelForm):
         self.instance.codigo = Estandar.objects.get(codigo=codigo)
         self.instance.save()
         return super(ComentariosForm, self).save(commit=commit)
+
+class FilterCodigosForm(Form):
+    mychoices=[('All','Mostrar Todos')]
+    mychoices.extend(list(zip(Categoria.objects.all(),
+                              Categoria.objects.all())))
+    filtro = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'submit()'}),
+                               choices=mychoices)
 
