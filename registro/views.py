@@ -75,26 +75,30 @@ def codigos_alt(request):
 def listacodigosporcategoria(request):
     # dirty but works... refactor later (20221030)
     if request.method == "POST":
-        filtro_value=request.POST['filtro']
-        if(filtro_value=="All"):
+        filtro_value=request.POST.get('filtro')
+        if(filtro_value=="All"): # all categories
             categorias = models.Categoria.objects.all()
             codigos = dict(zip(categorias,
                                map(lambda x: x.estandar_set.all(),
                                    categorias)))
-        else:
+        else: # one category
             categoria=models.Categoria.objects.get(categoria=filtro_value)
-            codigos=dict([(categoria,categoria.estandar_set.all())])
+            codigos=dict([(categoria,
+                           categoria.estandar_set.all())])
         codigosfilter=forms.FilterCodigosForm(request.POST)
-    else:
+        showimages=request.POST.get('mostrarimagenes')
+    else: # start
         categorias=models.Categoria.objects.all()
         codigosfilter=forms.FilterCodigosForm()
 
         codigos=dict(zip(categorias,
                          map(lambda x: x.estandar_set.all(),
                               categorias)))
+        showimages=False # hardcoded for now
 
     return render(request,
-                  template_name="registro/listacodigos.html",
+                  template_name="registro/listacodigos2.html",
                   context = {'codigos':codigos,
-                             'selectfilter':codigosfilter})
+                             'selectfilter':codigosfilter,
+                             'showimages':showimages})
 

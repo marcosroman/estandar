@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="{% block css %}{% static 'css/style.css' %}{% endblock %}">
+		{% block css %}
+			<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		{% endblock %}
 		<title>{% block title %}Estandar{% endblock %}</title>
 	</head>
 
@@ -13,6 +15,9 @@
 			{% include './navbar.html' %}
 			{% endblock %}
 		</div>
+		<br>
+		<div id="content">
 		{% block content %}{% endblock %}
+		</div>
 	</body>
 </html>

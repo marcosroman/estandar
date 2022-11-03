@@ -4,8 +4,10 @@
 
 <form action='' method="post">
 	{% csrf_token %}
-	{{ selectfilter }}
+	{{ selectfilter.as_p }}
 </form>
+
+{#<br>{{selectfilter.GET.filtro}}<br>#}
 
 {# it works! of course this can be improved #}
 {% for categoria,codigo in codigos.items %}
@@ -13,7 +15,11 @@
 	<h2>{{categoria}}</h2>
 	<ul>
 		{% for c in codigo %}
-		<li>{{c}}</li>
+		<li><a href="{% url 'registro:codigos-detailview' c %}">{{c}}</a>
+			{% if showimages %}
+				<img src="/media/{{c.imagen}}"/>
+			{% endif %}
+		</li>
 		{% endfor %}
 	</ul>
 	{% endif %}

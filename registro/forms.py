@@ -68,10 +68,14 @@ class ComentariosForm(ModelForm):
         self.instance.save()
         return super(ComentariosForm, self).save(commit=commit)
 
+# lo que sigue aca es agregar un checkbox para que se muestren o no los dibujos --- por ahora eso nomas
 class FilterCodigosForm(Form):
     mychoices=[('All','Mostrar Todos')]
     mychoices.extend(list(zip(Categoria.objects.all(),
                               Categoria.objects.all())))
     filtro = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'submit()'}),
                                choices=mychoices)
-
+    #https://tuts-station.com/django-form-checkbox-validation-example.html
+    mostrarimagenes = forms.BooleanField(label='Mostar imagenes?', required=False,
+                                         widget=forms.CheckboxInput(
+                                             attrs={'onchange':'submit()'}))
