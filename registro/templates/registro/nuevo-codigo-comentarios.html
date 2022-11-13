@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+<h3>Comentarios</h3>
+<script type="text/javascript" src="{% static 'js/jquery-3.6.0.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+	$(function() {
+			$('#myform tbody tr').formset();
+	})
+</script>
+
+	<!--<form id="myform" action='/comentariosformset' method="post" enctype="multipart/form-data">-->
+	<!--<form id="myform" action='' method="post" enctype="multipart/form-data">-->
+	<form id="myform" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	codigo: {{codigo}}<br><br>
+	<table>
+		{{ formset.as_table }}
+	</table>
+	<br>
+	<input type="submit" value="Guardar">
+</form>
+{% endblock %}
+
