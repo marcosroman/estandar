@@ -58,16 +58,6 @@ class ComentariosForm(ModelForm):
         self.instance.save()
         return super(ComentariosForm, self).save(commit=commit)
 
-class ComentariosForm(ModelForm):
-    class Meta:
-        model = Comentarios
-        exclude = ['codigo']
-
-    def save(self, codigo, commit=True):
-        self.instance.codigo = Estandar.objects.get(codigo=codigo)
-        self.instance.save()
-        return super(ComentariosForm, self).save(commit=commit)
-
 # lo que sigue aca es agregar un checkbox para que se muestren o no los dibujos --- por ahora eso nomas
 class FilterCodigosForm(Form):
     mychoices=[('All','Mostrar Todos')]
@@ -79,3 +69,14 @@ class FilterCodigosForm(Form):
     mostrarimagenes = forms.BooleanField(label='Mostar imagenes?', required=False,
                                          widget=forms.CheckboxInput(
                                              attrs={'onchange':'submit()'}))
+
+class PlanoForm(ModelForm):
+    class Meta:
+        model = Plano
+        fields = "__all__"
+
+class DetallePlanoForm(ModelForm):
+    class Meta:
+        model = DetallePlano
+        fields = "__all__"
+

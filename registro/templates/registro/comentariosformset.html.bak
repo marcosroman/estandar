@@ -1,9 +1,0 @@
-<form action='/' method="post" enctype="multipart/form-data">
-	{% csrf_token %}
-	<table>
-		{{ formset }}
-	</table>
-	<br>
-	<input type="submit" value="Guardar">
-</form>
-	

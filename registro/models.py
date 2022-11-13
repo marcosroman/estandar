@@ -1,27 +1,40 @@
-from django.db import models
+from django.db.models import *
 
-class Categoria(models.Model):
-    categoria = models.TextField()
+class Categoria(Model):
+    categoria = TextField()
 
     def __str__(self):
         return self.categoria
 
-class Estandar(models.Model):
+class Estandar(Model):
     #codigo = models.CharField(max_length=20)
-    codigo = models.SlugField(unique=True)
-    imagen = models.ImageField(upload_to='imagenes')
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    codigo = SlugField(unique=True)
+    imagen = ImageField(upload_to='imagenes')
+    categoria = ForeignKey(Categoria, on_delete=CASCADE)
     
     def __str__(self):
         return self.codigo
 
-class Comentarios(models.Model):
-    codigo=models.ForeignKey(Estandar, on_delete=models.CASCADE)
+
+class Comentarios(Model):
+    codigo=ForeignKey(Estandar, on_delete=CASCADE)
     #numerolinea=models.IntegerField() # * hacer que se autoincremente
-    comentario=models.CharField(max_length=100)
+    comentario=CharField(max_length=100)
 
     class Meta:
         constraints=(
-                models.UniqueConstraint(fields=['codigo','comentario'],
+                UniqueConstraint(fields=['codigo','comentario'],
                                         name='unique_comentario'),)
+
+class Plano(Model):
+    planoid = AutoField(primary_key=True)
+    fecha = DateTimeField(default=0)
+    vendedor = TextField()
+
+class DetallePlano(Model):
+    planoid = ForeignKey(Plano, on_delete=CASCADE)
+    codigo = ForeignKey(Estandar, on_delete=CASCADE)
+    cantidad = IntegerField()
+    ancho_mm = IntegerField()
+    alto_mm = IntegerField()
 

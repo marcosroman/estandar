@@ -18,7 +18,7 @@
 	{% endfor %}
 	</ul>
 {% else %}
-	<a href="{% url 'registro:comentarios' %}?codigo={{object.codigo}}">Agregar comentarios</a>
+	<a href="{% url 'registro:nuevo-codigo-comentarios' %}?codigo={{object.codigo}}">Agregar comentarios</a>
 {% endif %}
 {% endblock %}
 

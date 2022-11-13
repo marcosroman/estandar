@@ -18,7 +18,7 @@ def buscador(request):
 
     return render(request, template_name='registro/buscador.html')
 
-def registro(request):
+def nuevo_codigo(request):
     if request.method == "POST":
         form=forms.RegistroForm(request.POST, request.FILES)
         form.fields['imagen'].required=False
@@ -26,16 +26,16 @@ def registro(request):
             formtosave=form.save()
             codigo=formtosave.codigo
             formtosave.save()
-            url="/comentarios?codigo="+codigo
+            url=reverse("registro:nuevo-codigo-comentarios")+"?codigo="+codigo
             return redirect(url)
     else:
         form=forms.RegistroForm()
 
     return render(request,
-                  template_name="registro/nuevo.html",
+                  template_name="registro/nuevo-codigo.html",
                   context={'form':form})
 
-def comentarios(request):
+def nuevo_codigo_comentarios(request):
     ComentariosFormSet = formset_factory(forms.ComentariosForm)
     codigo=request.GET.get('codigo') 
     if request.method == "POST":
@@ -43,28 +43,15 @@ def comentarios(request):
         if formset.is_valid():
             for form in formset:
                 form.save(codigo=codigo)
-            return HttpResponseRedirect('/codigos/'+codigo)
+            return HttpResponseRedirect(reverse("registro:codigos-detailview",args=[codigo]))
     else:
         formset = ComentariosFormSet()
         estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
     
     return render(request,
-                  template_name="registro/comentariosformset.html",
-                  context={'formset':formset,'codigo':codigo})
-
-class EstandarList(ListView):
-    model = models.Estandar
-
-class EstandarDetail(DetailView):
-    model = models.Estandar
-    # https://stackoverflow.com/questions/68512060/slugfield-not-working-if-field-name-is-different-from-slug
-    slug_field = 'codigo'
-    
-    # https://stackoverflow.com/questions/14936160/django-detailview-how-to-display-two-models-at-same-time#14936328
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['comentarios'] = models.Estandar.objects.get(id=context['object'].id).comentarios_set.all()
-        return context
+                  template_name="registro/nuevo-codigo-comentarios.html",
+                  context={'formset':formset,
+                           'codigo':codigo})
 
 # another view, little pics included
 def codigos_alt(request):
@@ -97,8 +84,57 @@ def listacodigosporcategoria(request):
         showimages=False # hardcoded for now
 
     return render(request,
-                  template_name="registro/listacodigos2.html",
+                  template_name="registro/listacodigos.html",
                   context = {'codigos':codigos,
                              'selectfilter':codigosfilter,
                              'showimages':showimages})
+
+def nuevo_plano(request):
+    if request.method == "POST":
+        form=forms.PlanoForm(request.POST, request.FILES)
+        #form.fields['imagen'].required=False
+        if form.is_valid():
+            formtosave=form.save()
+            planoid=formtosave.planoid
+            formtosave.save()
+            url=reverse("registro:nuevo-plano-detalle")+"?planoid="+planoid
+            return redirect(url)
+    else:
+        form=forms.PlanoForm()
+
+    return render(request,
+                  template_name="registro/nuevoplano.html",
+                  context={'form':form})
+
+def plano_detalle(request):
+    ComentariosFormSet = formset_factory(forms.ComentariosForm)
+    codigo=request.GET.get('codigo') 
+    if request.method == "POST":
+        formset=ComentariosFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                form.save(codigo=codigo)
+            #return HttpResponseRedirect('/codigos/'+codigo)
+    else:
+        formset = ComentariosFormSet()
+        estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
+    
+    return render(request,
+                  template_name="registro/comentarios.html",
+                  context={'formset':formset,'codigo':codigo})
+
+class EstandarLista(ListView):
+    model = models.Estandar
+
+class EstandarDetalle(DetailView):
+    model = models.Estandar
+    # https://stackoverflow.com/questions/68512060/slugfield-not-working-if-field-name-is-different-from-slug
+    slug_field = 'codigo'
+    
+    # https://stackoverflow.com/questions/14936160/django-detailview-how-to-display-two-models-at-same-time#14936328
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comentarios'] = models.Estandar.objects.get(id=context['object'].id).comentarios_set.all()
+        return context
+
 
