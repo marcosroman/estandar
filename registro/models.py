@@ -1,7 +1,7 @@
 from django.db.models import *
 
 class Categoria(Model):
-    categoria = TextField()
+    categoria = CharField(max_length=50)
 
     def __str__(self):
         return self.categoria
@@ -15,7 +15,6 @@ class Estandar(Model):
     def __str__(self):
         return self.codigo
 
-
 class Comentarios(Model):
     codigo=ForeignKey(Estandar, on_delete=CASCADE)
     #numerolinea=models.IntegerField() # * hacer que se autoincremente
@@ -28,8 +27,11 @@ class Comentarios(Model):
 
 class Plano(Model):
     planoid = AutoField(primary_key=True)
-    fecha = DateTimeField(default=0)
-    vendedor = TextField()
+    fecha = DateTimeField()
+    ot = IntegerField()
+    vendedor = CharField(max_length=100)
+    cliente = CharField(max_length=100)
+    obra = CharField(max_length=100)
 
 class DetallePlano(Model):
     planoid = ForeignKey(Plano, on_delete=CASCADE)

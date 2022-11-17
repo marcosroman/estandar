@@ -91,37 +91,40 @@ def listacodigosporcategoria(request):
 
 def nuevo_plano(request):
     if request.method == "POST":
-        form=forms.PlanoForm(request.POST, request.FILES)
+        form_inicial=forms.PlanoForm(request.POST, request.FILES)
+        form_detalle=forms.DetallePlanoForm(request.POST, request.FILES)
         #form.fields['imagen'].required=False
-        if form.is_valid():
-            formtosave=form.save()
-            planoid=formtosave.planoid
-            formtosave.save()
-            url=reverse("registro:nuevo-plano-detalle")+"?planoid="+planoid
-            return redirect(url)
+        #if form_inicial.is_valid():
+        #formtosave=form.save()
+        #planoid=formtosave.planoid
+        #formtosave.save()
+        #url=reverse("registro:nuevo-plano-detalle")+"?planoid="+planoid
+        #return redirect(url)
     else:
-        form=forms.PlanoForm()
+        form_inicial=forms.PlanoForm()
+        form_detalle=forms.DetallePlanoForm()
 
     return render(request,
-                  template_name="registro/nuevoplano.html",
-                  context={'form':form})
+                  template_name="registro/nuevo-plano.html",
+                  context={'form_inicial':form_inicial,
+                           'form_detalle':form_detalle})
 
-def plano_detalle(request):
-    ComentariosFormSet = formset_factory(forms.ComentariosForm)
-    codigo=request.GET.get('codigo') 
-    if request.method == "POST":
-        formset=ComentariosFormSet(request.POST)
-        if formset.is_valid():
-            for form in formset:
-                form.save(codigo=codigo)
-            #return HttpResponseRedirect('/codigos/'+codigo)
-    else:
-        formset = ComentariosFormSet()
-        estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
-    
-    return render(request,
-                  template_name="registro/comentarios.html",
-                  context={'formset':formset,'codigo':codigo})
+#def plano_detalle(request):
+#    ComentariosFormSet = formset_factory(forms.ComentariosForm)
+#    codigo=request.GET.get('codigo') 
+#    if request.method == "POST":
+#        formset=ComentariosFormSet(request.POST)
+#        if formset.is_valid():
+#            for form in formset:
+#                form.save(codigo=codigo)
+#            #return HttpResponseRedirect('/codigos/'+codigo)
+#    else:
+#        formset = ComentariosFormSet()
+#        estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
+#    
+#    return render(request,
+#                  template_name="registro/comentarios.html",
+#                  context={'formset':formset,'codigo':codigo})
 
 class EstandarLista(ListView):
     model = models.Estandar
