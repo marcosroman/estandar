@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.decorators import login_required
 from . import models
 from . import forms
 
@@ -18,6 +19,7 @@ def buscador(request):
 
     return render(request, template_name='registro/buscador.html')
 
+@login_required
 def nuevo_codigo(request):
     if request.method == "POST":
         form=forms.RegistroForm(request.POST, request.FILES)

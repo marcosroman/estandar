@@ -13,4 +13,5 @@ urlpatterns = [
         path('codigos/<slug>',views.EstandarDetalle.as_view(),name='codigos-detailview'),
         #path('codigos-alt',views.codigos_alt,name='codigos-alt'),
         path('codigos-porcategoria',views.listacodigosporcategoria,name='codigosporcategoria'),
+        #path('accounts/login/',auth_views.LoginView.as_view()),
         ]
