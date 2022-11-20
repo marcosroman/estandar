@@ -82,5 +82,7 @@ class PlanoForm(ModelForm):
 class DetallePlanoForm(ModelForm):
     class Meta:
         model = DetallePlano
-        fields = "__all__"
+        exclude = ['planoid']
+        #fields = "__all__"
+    #def __init__(
 
