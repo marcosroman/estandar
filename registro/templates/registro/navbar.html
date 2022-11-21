@@ -1,8 +1,16 @@
 <nav>
 	<ul>
-		<li><a href="{% url 'registro:codigosporcategoria' %}">Lista de Codigos (mejorada)</a></li>
-		<li><a href="{% url 'registro:codigos-listview' %}">Lista de Codigos</a></li>
-		<li><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Codigo</a></li>
+		<li><a href="{% url 'registro:codigosporcategoria' %}">Codigos</a></li>
+		{% if user.is_authenticated %}
+			<li><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Codigo</a></li>
+			<li><a href="{% url 'registro:nuevo-plano' %}">Nuevo Plano</a></li>
+			<li><a href="{% url 'logout' %}">Salir</a>
+		{% else %}
+			<li><a href="{% url 'login' %}">Ingresar</a>
+		{% endif %}
 	</ul>
+	{% if user.is_authenticated %}
+	<p>({{user}})</p>
+	{% endif %}
 </nav>
 

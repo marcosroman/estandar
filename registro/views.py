@@ -37,6 +37,7 @@ def nuevo_codigo(request):
                   template_name="registro/nuevo-codigo.html",
                   context={'form':form})
 
+@login_required
 def nuevo_codigo_comentarios(request):
     ComentariosFormSet = formset_factory(forms.ComentariosForm)
     codigo=request.GET.get('codigo') 
@@ -91,6 +92,7 @@ def listacodigosporcategoria(request):
                              'selectfilter':codigosfilter,
                              'showimages':showimages})
 
+@login_required
 def nuevo_plano(request):
     if request.method == "POST":
         form=forms.PlanoForm(request.POST, request.FILES)
@@ -109,6 +111,7 @@ def nuevo_plano(request):
                   template_name="registro/nuevo-plano.html",
                   context={'form':form})
 
+@login_required
 def nuevo_plano_detalle(request):
     DetallePlanoFormSet = formset_factory(forms.DetallePlanoForm)
     #codigo=request.GET.get('codigo') 
