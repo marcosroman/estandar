@@ -20,7 +20,7 @@ class RegistroForm(ModelForm):
 
     class Meta:
         model = Estandar
-        fields = '__all__'
+        exclude = ['autor']
         widgets = { 'imagen' : PastedImageWidget() }
     
     # need this to complain in case no 'imagen' is pasted
@@ -51,7 +51,7 @@ class RegistroForm(ModelForm):
 class ComentariosForm(ModelForm):
     class Meta:
         model = Comentarios
-        exclude = ['codigo']
+        exclude = ['codigo','autor']
 
     def save(self, codigo, commit=True):
         self.instance.codigo = Estandar.objects.get(codigo=codigo)
@@ -76,13 +76,11 @@ class FilterCodigosForm(Form):
 class PlanoForm(ModelForm):
     class Meta:
         model = Plano
-        fields = "__all__"
+        exclude = ['fecha','autor']
         widgets = { 'fecha' : forms.SelectDateWidget() }
 
 class DetallePlanoForm(ModelForm):
     class Meta:
         model = DetallePlano
-        exclude = ['planoid']
-        #fields = "__all__"
-    #def __init__(
+        exclude = ['planoid','autor']
 

@@ -5,6 +5,9 @@ from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from django.utils import timezone # to fix the "received a naive datetime" warning
+# -> https://stackoverflow.com/questions/18622007/runtimewarning-datetimefield-received-a-naive-datetime#20106079
 from . import models
 from . import forms
 
@@ -25,6 +28,7 @@ def nuevo_codigo(request):
         form=forms.RegistroForm(request.POST, request.FILES)
         form.fields['imagen'].required=False
         if form.is_valid():
+            form.instance.autor=request.user
             formtosave=form.save()
             codigo=formtosave.codigo
             formtosave.save()
@@ -45,8 +49,10 @@ def nuevo_codigo_comentarios(request):
         formset=ComentariosFormSet(request.POST)
         if formset.is_valid():
             for form in formset:
+                form.instance.autor=request.user
                 form.save(codigo=codigo)
-            return HttpResponseRedirect(reverse("registro:codigos-detailview",args=[codigo]))
+            return HttpResponseRedirect(reverse("registro:codigos-detailview",
+                                        args=[codigo]))
     else:
         formset = ComentariosFormSet()
         estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
@@ -55,6 +61,52 @@ def nuevo_codigo_comentarios(request):
                   template_name="registro/nuevo-codigo-comentarios.html",
                   context={'formset':formset,
                            'codigo':codigo})
+
+@login_required
+def nuevo_plano(request):
+    if request.method == "POST":
+        form=forms.PlanoForm(request.POST)
+        if form.is_valid():
+            form.instance.autor=request.user
+            form.instance.fecha=datetime.now(tz=timezone.utc)
+            formtosave=form.save()
+            planoid=formtosave.planoid
+            formtosave.save()
+            url=reverse("registro:nuevo-plano-detalle")+"?planoid="+str(planoid)
+            return redirect(url)
+    else:
+        form=forms.PlanoForm()
+
+    return render(request,
+                  template_name="registro/nuevo-plano.html",
+                  context={'form':form})
+
+@login_required
+def nuevo_plano_detalle(request):
+    DetallePlanoFormSet = formset_factory(forms.DetallePlanoForm)
+    planoid=int(request.GET.get('planoid'))
+    print("planoid is "+str(planoid))
+    if request.method == "POST":
+        formset=DetallePlanoFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                form.instance.planoid=models.Plano.objects.get(planoid=planoid)
+                form.instance.autor=request.user
+                form.save().save()
+            return HttpResponseRedirect("/")
+                # form.save()#codigo=codigo)
+                # return HttpResponseRedirect('/codigos/'+codigo)
+            # generate each 'plano' image...!!!
+            # then add them up...!
+            # then redirect to the view (showing the image and the details below in table form :D) 
+    else:
+        formset = DetallePlanoFormSet()
+        #estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
+    
+    return render(request,
+                  template_name="registro/nuevo-plano-detalle.html",
+                  context={'formset':formset})#,'codigo':codigo})
+
 
 # another view, little pics included
 def codigos_alt(request):
@@ -92,43 +144,6 @@ def listacodigosporcategoria(request):
                              'selectfilter':codigosfilter,
                              'showimages':showimages})
 
-@login_required
-def nuevo_plano(request):
-    if request.method == "POST":
-        form=forms.PlanoForm(request.POST, request.FILES)
-        #form_detalle=forms.DetallePlanoForm(request.POST, request.FILES)
-        #form.fields['imagen'].required=False
-        #if form_inicial.is_valid():
-        #formtosave=form.save()
-        #planoid=formtosave.planoid
-        #formtosave.save()
-        #url=reverse("registro:nuevo-plano-detalle")+"?planoid="+planoid
-        #return redirect(url)
-    else:
-        form=forms.PlanoForm()
-
-    return render(request,
-                  template_name="registro/nuevo-plano.html",
-                  context={'form':form})
-
-@login_required
-def nuevo_plano_detalle(request):
-    DetallePlanoFormSet = formset_factory(forms.DetallePlanoForm)
-    #codigo=request.GET.get('codigo') 
-    if request.method == "POST":
-        formset=DetallePlanoFormSet(request.POST)
-        #if formset.is_valid():
-        #    for form in formset:
-        #        form.save()#codigo=codigo)
-        #        #return HttpResponseRedirect('/codigos/'+codigo)
-    else:
-        formset = DetallePlanoFormSet()
-        #estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
-    
-    return render(request,
-                  template_name="registro/nuevo-plano-detalle.html",
-                  context={'formset':formset})#,'codigo':codigo})
-
 class EstandarLista(ListView):
     model = models.Estandar
 
@@ -143,4 +158,8 @@ class EstandarDetalle(DetailView):
         context['comentarios'] = models.Estandar.objects.get(id=context['object'].id).comentarios_set.all()
         return context
 
+from .pasteimages.pastestuff import *
+
+def test(request):
+    return HttpResponse(str(bigfact()))
 
