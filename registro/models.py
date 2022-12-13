@@ -10,7 +10,7 @@ class Categoria(Model):
 class Estandar(Model):
     #codigo = models.CharField(max_length=20)
     codigo = SlugField(unique=True)
-    imagen = ImageField(upload_to='imagenes')
+    imagen = ImageField(upload_to='imagenes/estandar')
     categoria = ForeignKey(Categoria, on_delete=CASCADE)
     autor = ForeignKey(User, on_delete=CASCADE)
     

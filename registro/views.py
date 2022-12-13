@@ -158,8 +158,29 @@ class EstandarDetalle(DetailView):
         context['comentarios'] = models.Estandar.objects.get(id=context['object'].id).comentarios_set.all()
         return context
 
-from .pasteimages.pastestuff import *
+from .utils import generarplanos
 
-def test(request):
-    return HttpResponse(str(bigfact()))
+# here i'm gonna add a funtionview for plano
+# it will list all ot's and link to the last
+# plano that was created (highest planoid)
+# (so 2 url families here, /plano and /plano/<ot>)
+# for the current user
+
+# and maybe if there's no plano, it will render the first one
+
+# in /plano/<ot> i'll add a 'generate plano' button
+# (in case there are updates or things needed to be corrected)
+
+# and the controller should also check if there's no such image to create it, i guess
+# but maybe not necessary since it would be created after the data is saved
+# so yes, check or generating at start is not needed
+
+@login_required
+def plano_list(request):
+    return True
+
+@login_required
+def plano_detalle(request,ot):
+
+    return HttpResponse(str(ot))
 
