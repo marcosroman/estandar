@@ -1,0 +1,19 @@
+{% extends 'registro/base.html' %}
+
+{% block content %}
+
+{# lists distinct ots (ot=orden de trabajo, the id in the glass provider internal system) #}
+{% for p in ots %}
+	<ul>
+	{% if p %}
+		<li>
+			<a href="planos/{{p.ot}}">{{p.ot}}</a>
+		</li>
+	{% else %}
+		<p>(nada)</p>
+	{% endif %}
+	</ul>
+{% endfor %}
+
+{% endblock %}
+

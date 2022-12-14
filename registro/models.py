@@ -10,7 +10,7 @@ class Categoria(Model):
 class Estandar(Model):
     #codigo = models.CharField(max_length=20)
     codigo = SlugField(unique=True)
-    imagen = ImageField(upload_to='imagenes/estandar')
+    imagen = ImageField(upload_to='estandar')
     categoria = ForeignKey(Categoria, on_delete=CASCADE)
     autor = ForeignKey(User, on_delete=CASCADE)
     
@@ -36,6 +36,7 @@ class Plano(Model):
     #cliente = CharField(max_length=100)
     #obra = CharField(max_length=100)
     autor = ForeignKey(User, on_delete=CASCADE)
+    ultima_generacion_imagen = DateTimeField(default=None, null=True)
 
 class DetallePlano(Model):
     planoid = ForeignKey(Plano, on_delete=CASCADE)
@@ -44,5 +45,6 @@ class DetallePlano(Model):
     cantidad = IntegerField()
     ancho_mm = IntegerField()
     alto_mm = IntegerField()
-    autor = ForeignKey(User, on_delete=CASCADE)
+    # autor = ForeignKey(User, on_delete=CASCADE) # creo que no hace falta esto, si ya esta en el modelo anterior, al cual este apunta
+    comentario = TextField(default=None, null=True)
 

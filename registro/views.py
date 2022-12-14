@@ -171,16 +171,35 @@ from .utils import generarplanos
 # in /plano/<ot> i'll add a 'generate plano' button
 # (in case there are updates or things needed to be corrected)
 
-# and the controller should also check if there's no such image to create it, i guess
+# and the controller should also check if there's no such image to create it,
+# i guess
 # but maybe not necessary since it would be created after the data is saved
 # so yes, check or generating at start is not needed
+@login_required
+def plano_lista(request):
+    ots = models.Plano.objects.filter(autor
+                                      =request.user.id).values('ot').distinct()
+
+    # no estoy seguro de que esto funcione... ver de cerca primero
+    print('request.user =',request.user)
+    print('request.user.id =',request.user.id)
+    return render(request,
+                  template_name="registro/listaplanos.html",
+                  context = {'ots':ots})
 
 @login_required
-def plano_list(request):
-    return True
+def plano_detalle(request, ot):
+    plano=models.Plano.objects.filter(ot=ot,autor=request.user.id).first()
+    plano_detalle=models.DetallePlano.objects.filter(planoid=plano.planoid)
+    print(plano_detalle)
 
-@login_required
-def plano_detalle(request,ot):
 
-    return HttpResponse(str(ot))
+    # use submit button (so set get and post) to regenerate the planoimage
+
+    # should i get a plano image check (to see if any exists)
+    return render(request,
+                  template_name="registro/detalleplano.html",
+                  context = {'ot':ot,
+                             'plano':plano,
+                             'plano_detalle':plano_detalle})
 

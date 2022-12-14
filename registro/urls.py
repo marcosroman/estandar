@@ -13,7 +13,7 @@ urlpatterns = [
         path('codigos/<slug>',views.EstandarDetalle.as_view(),name='codigos-detailview'),
         #path('codigos-alt',views.codigos_alt,name='codigos-alt'),
         path('codigos-porcategoria',views.listacodigosporcategoria,name='codigosporcategoria'),
-        path('planos',views.plano_list, name='listaplanos'),
+        path('planos',views.plano_lista, name='listaplanos'),
         path('planos/<int:ot>',views.plano_detalle, name='detalleplano'),
         #path('test',views.test,name='test'),
         #path('accounts/login/',auth_views.LoginView.as_view()),

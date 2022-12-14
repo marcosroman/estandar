@@ -1,9 +1,9 @@
 <nav>
 	<ul>
-		<li><a href="{% url 'registro:codigosporcategoria' %}">Codigos</a></li>
+		<li><a href="{% url 'registro:codigosporcategoria' %}">Planos Estandar</a></li>
 		{% if user.is_authenticated %}
-		<li><a href="/">Mis planos</a></li> {# deberia ordenar por fecha y ot #}
-			<li><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Codigo</a></li>
+		<li><a href="{% url 'registro:listaplanos' %}">Mis planos</a></li> {# deberia ordenar por fecha y ot #}
+			<li><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Estandar</a></li>
 			<li><a href="{% url 'registro:nuevo-plano' %}">Nuevo Plano</a></li>
 			<li><a href="{% url 'logout' %}">Salir</a>
 		{% else %}

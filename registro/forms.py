@@ -76,7 +76,7 @@ class FilterCodigosForm(Form):
 class PlanoForm(ModelForm):
     class Meta:
         model = Plano
-        exclude = ['fecha','autor']
+        exclude = ['fecha','autor','ultima_generacion_imagen']
         widgets = { 'fecha' : forms.SelectDateWidget() }
 
 class DetallePlanoForm(ModelForm):
