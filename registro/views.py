@@ -10,6 +10,7 @@ from django.utils import timezone # to fix the "received a naive datetime" warni
 # -> https://stackoverflow.com/questions/18622007/runtimewarning-datetimefield-received-a-naive-datetime#20106079
 from . import models
 from . import forms
+from django.conf import settings
 
 def buscador(request):
     # aca quiero poner algo asi como un buscador...
@@ -92,6 +93,8 @@ def nuevo_plano_detalle(request):
             for form in formset:
                 form.instance.planoid=models.Plano.objects.get(planoid=planoid)
                 form.instance.autor=request.user
+
+                form.fields['comentario'].required=False
                 form.save().save()
             return HttpResponseRedirect("/")
                 # form.save()#codigo=codigo)
@@ -142,7 +145,8 @@ def listacodigosporcategoria(request):
                   template_name="registro/listacodigos.html",
                   context = {'codigos':codigos,
                              'selectfilter':codigosfilter,
-                             'showimages':showimages})
+                             'showimages':showimages,
+                             'MEDIA_URL':settings.MEDIA_URL})
 
 class EstandarLista(ListView):
     model = models.Estandar
@@ -187,19 +191,41 @@ def plano_lista(request):
                   template_name="registro/listaplanos.html",
                   context = {'ots':ots})
 
+from .utils import generarplanos
 @login_required
 def plano_detalle(request, ot):
     plano=models.Plano.objects.filter(ot=ot,autor=request.user.id).first()
     plano_detalle=models.DetallePlano.objects.filter(planoid=plano.planoid)
-    print(plano_detalle)
 
+    # use submit button to regenerate (save again) the plano image
+    #if request.method == "GET":
+    #print("REGENERAR IMAGEN")
+    # REGENERAR IMAGEN
+    # ?should i get a plano image check (to see if any exists)
+    #print("settings.MEDIA_URL:",settings.MEDIA_URL)
+    #print("settings.MEDIA_ROOT:",settings.MEDIA_ROOT)
+    generarplanos.generate_and_save_plano(plano.planoid,
+                                          plano_detalle,
+                                          settings.MEDIA_URL+"/estandar", #input_images_url,
+                                          settings.MEDIA_ROOT+"/estandar", #input_images_folder,
+                                          settings.MEDIA_ROOT+"/planos")
+    # PENDING: SHOULD ALSO CHECK CONDTIONS (MAX GLASSES=20, MAX_WIDHT HEIGHT, ETC (we can add these checks later))
 
-    # use submit button (so set get and post) to regenerate the planoimage
-
-    # should i get a plano image check (to see if any exists)
     return render(request,
                   template_name="registro/detalleplano.html",
                   context = {'ot':ot,
                              'plano':plano,
                              'plano_detalle':plano_detalle})
 
+def inicio(request):
+    return render(request, 
+                  template_name='registro/base.html')
+
+def instrucciones(request):
+    return render(request, 
+                  template_name='registro/instrucciones.html',
+                  context = {'MEDIA_URL':settings.MEDIA_URL})
+
+def catalogo(request):
+    return redirect (settings.MEDIA_URL+'/catalogo.pdf')
+    

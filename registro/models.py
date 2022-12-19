@@ -46,5 +46,6 @@ class DetallePlano(Model):
     ancho_mm = IntegerField()
     alto_mm = IntegerField()
     # autor = ForeignKey(User, on_delete=CASCADE) # creo que no hace falta esto, si ya esta en el modelo anterior, al cual este apunta
-    comentario = TextField(default=None, null=True)
+    comentario = TextField(default=None, null=True, blank=True)
+
 

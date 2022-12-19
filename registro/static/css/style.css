@@ -1,8 +1,127 @@
-body {
-	text-align: center;
+* {
+	font-family: sans-serif;
+	margin: 0;
+	padding: 0;
 }
+
+nav {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	font-weight: bold;
+	margin: 15px;
+	padding: 15px;
+}
+
+.nav {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+.nav a {
+	font-size: 2vw;
+}
+
+.nav ul {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+
+#nav-mp, #nav-np { 
+	text-align: left;
+}
+
+#nav-pe, #nav-ne {
+	text-align: right;
+}
+
+#left.nav .estandarplanos {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	flex-grow: 1;
+}
+
+#right.nav {
+	justify-content: flex-end;
+	align-items: center;
+	flex-flow: row-reverse;
+	justify-content: right;
+}
+
+@media screen and (max-width:600px) {
+/*HERE*/
+	.nav ul, #left.nav, #right.nav  {
+		flex-direction: column;
+	}
+
+	#left.nav .estandarplanos {
+		display: flex;
+		flex-direction: column;
+	}
+
+}
+
+@media screen and (min-width:100vw/*300px*/) {
+	* {
+		font-size: large;
+	}
+}
+
+#right.nav ul {
+	justify-content: right;
+}
+
+nav li {
+	list-style: none;
+	margin: 0.2em 1em;
+	align-self: center;
+	text-shadow: 0.05em 0 #2fa753;
+	/*text-align: center;*/
+	/*text-shadow: 0.1em 0.1em #2fa753;*/
+}
+
+li {
+	list-style: none;
+}
+#user {
+	align-self: center;
+	margin: auto 1em;
+}
+
+a, a:link, a:visited, a:active {
+  text-decoration: none;
+  color: #0078bf;
+}
+
+a:hover { color: #2fa753 !important; }
 
 form {
 	display: inline-block;
+}
+
+#texto-instrucciones {
+	margin: 0 20%;
+	text-align: justify;
+}
+
+main {
+	margin: 0 auto;
+	text-align: center;
+}
+
+main > * {
+	margin: 1em 1em;
+	padding: 1em 1em;
+}
+
+main p, main a, main input, main button, main label {
+	font-size: 5vw;
+}
+
+main p, main li {
+	margin: 1em 1em;
 }
 

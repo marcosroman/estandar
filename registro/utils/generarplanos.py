@@ -110,7 +110,7 @@ def vertical_merge(im1, im2):
 
     return im
 
-def generate_annotated_images_list(input_images_folder, images_data):
+def generate_annotated_images_list(input_images_folder,images_data):
     '''
     input: images_data,
              an array of dictionaries (one entry per image to annotate)
@@ -118,12 +118,14 @@ def generate_annotated_images_list(input_images_folder, images_data):
              (later we'll be ading quantity and glass_type)
     output: imageList
     '''
+    INPUT_IMG_EXTENSION=".png"
     images_list = []
 
     for img_data in images_data:
-        img_filename = (input_images_folder
+        img_filename = (input_images_folder + "/"
                         + img_data['estandar_code']
                         + INPUT_IMG_EXTENSION)
+        print("####! DEBUG: img_filename = ", img_filename)
         image = Image.open(img_filename)
         draw = ImageDraw.Draw(image)
 
@@ -190,4 +192,33 @@ def paste_images(images_list):
                  horizontal_merge(
                    horizontal_merge(images_list[3],images_list[4]),
                    images_list[5]))
+
+
+def transform_detalle_planos_data(plano_detalle):
+    '''
+    this will receive a querylist consisting of entries in detalle_planos
+    and transform the format to the 'images_data' format (list of dictionaries)
+    '''
+
+    img_data=list()
+    for dp in plano_detalle:
+        print('codigo.codigo=',dp.codigo.codigo)
+        dpd=dict()
+        dpd['estandar_code']=dp.codigo.codigo
+        dpd['width']=dp.ancho_mm
+        dpd['height']=dp.alto_mm
+        dpd['quantity']=dp.cantidad
+        dpd['type']=dp.tipo
+        img_data.append(dpd)
+
+    return img_data
+
+def generate_and_save_plano(
+        plano_id, plano_detalle,
+        input_images_url, input_images_folder, output_images_folder):
+    generated_image = paste_images(
+                        generate_annotated_images_list(input_images_folder,
+                          transform_detalle_planos_data(plano_detalle)))
+    print("##!#!$$! DEBUG: now im saving")
+    generated_image.save(output_images_folder+"/"+str(plano_id)+".png")
 

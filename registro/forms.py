@@ -10,13 +10,14 @@ from .models import *
 class PastedImageWidget(widgets.Widget):
     def render(self, name, value, attrs=None, renderer=None):
         if value is None: # though it's always None so far
-            html = "<img id='id_imagen' alt='(pegar imagen)'/>"
+            html = "<img id='id_imagen' alt='(ctrl+v p/ pegar)'/>"
         else:
             html = "<img id='id_imagen' src='%s'/>" % value
         return mark_safe(html)
 
 class RegistroForm(ModelForm):
-    imagen_container = forms.CharField(required=False, widget=forms.HiddenInput())
+    imagen_container = forms.CharField(required=False,
+                                       widget=forms.HiddenInput())
 
     class Meta:
         model = Estandar
@@ -26,7 +27,7 @@ class RegistroForm(ModelForm):
     # need this to complain in case no 'imagen' is pasted
     def clean(self):
         # https://github.com/twoscoops/two-scoops-of-django-1.8/issues/64
-        # (this is the right way to check fields, when auto-check is turned off)
+        # (this is the right way to check fields, when auto-check is off)
         cleaned_data = super(RegistroForm, self).clean()
         imagen_container = cleaned_data.get("imagen_container")
         if imagen_container == "":
@@ -34,7 +35,7 @@ class RegistroForm(ModelForm):
 
     def save(self, commit=True):
         self.instance.imagen.delete(False)
-        self.instance.codigo=self.instance.codigo.lower() # allow only lowercase
+        self.instance.codigo = self.instance.codigo.lower() # force lowercase
         imgdata = self.cleaned_data['imagen_container'].split(',')
         try:
             ftype = imgdata[0].split(';')[0].split('/')[1]
@@ -58,7 +59,8 @@ class ComentariosForm(ModelForm):
         self.instance.save()
         return super(ComentariosForm, self).save(commit=commit)
 
-# used in self-made list-view to show codigos... to filter by category and-or (un)select show-images
+# used in self-made list-view to show codigos... 
+# to filter by category and-or (un)select show-images
 class FilterCodigosForm(Form):
     mychoices=[('All','Mostrar Todos')]
     try:
@@ -66,10 +68,12 @@ class FilterCodigosForm(Form):
                                   Categoria.objects.all())))
     except:
         pass
-    filtro = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'submit()'}),
+    filtro = forms.ChoiceField(widget=forms.Select(
+                                                attrs={'onchange':'submit()'}),
                                choices=mychoices)
     #https://tuts-station.com/django-form-checkbox-validation-example.html
-    mostrarimagenes = forms.BooleanField(label='Mostar imagenes?', required=False,
+    mostrarimagenes = forms.BooleanField(label='Mostar imagenes?',
+                                         required=False,
                                          widget=forms.CheckboxInput(
                                              attrs={'onchange':'submit()'}))
 
@@ -83,4 +87,9 @@ class DetallePlanoForm(ModelForm):
     class Meta:
         model = DetallePlano
         exclude = ['planoid','autor']
+        # https://docs.djangoproject.com/en/1.10/topics/forms/modelforms/#overriding-the-default-fields
+        labels = {'comentario':'Comentario (opcional)'}
+    #def __init__(self):
+    #    super().__init__()
+    #    self.field['comentario'].label+=" (opcional)"
 

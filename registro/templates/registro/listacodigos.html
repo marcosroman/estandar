@@ -17,7 +17,7 @@
 		{% for c in codigo %}
 		<li><a href="{% url 'registro:codigos-detailview' c %}">{{c}}</a>
 			{% if showimages %}
-				<br><img src="/media/{{c.imagen}}"/><br>
+			<br><img src="{{MEDIA_URL}}{{c.imagen}}"/><br>
 			{% endif %}
 		</li>
 		{% endfor %}

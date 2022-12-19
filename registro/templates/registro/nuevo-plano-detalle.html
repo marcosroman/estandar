@@ -16,7 +16,7 @@
 	<!--<form id="myform" action='' method="post" enctype="multipart/form-data">-->
 
 	{# aqui quiero mostrar los detalles del plano #}
-	<form id="myform" method="post" enctype="multipart/form-data">
+	<form id="myform" method="post" enctype="multipart/form-data" action="{% url 'registro:listaplanos' %}">
 		{% csrf_token %}
 		<table>
 			{{ formset.as_table }}

@@ -2,13 +2,23 @@
 {% load static %}
 
 {% block content %}
-<script type="text/javascript" src="{% static 'js/imagepasting.js' %}"></script>
 
 <form action='' method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 		{{ form.as_p }}
 	<br>
+
+
+	<!--
+	<button type="button" id="pastebutton">p</button>
+	<br>
+	<br>
+	esto no funciona! -->
+
 	<input type="submit" value="Guardar">
 </form>
+
+<script defer type="text/javascript" src="{% static 'js/imagepasting.js' %}"></script>
+
 {% endblock %}
 

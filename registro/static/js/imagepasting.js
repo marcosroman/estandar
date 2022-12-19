@@ -1,4 +1,4 @@
-const target =  document.querySelector('*');
+target =  document.querySelector('*');
 target.addEventListener('paste', pasteHandler);
 
 function pasteHandler(e) {
@@ -24,4 +24,5 @@ function pasteHandler(e) {
 			}
 	 }
 }
+
 
