@@ -1,5 +1,6 @@
 from django.db.models import *
 from django.contrib.auth.models import User # https://learndjango.com/tutorials/django-best-practices-referencing-user-model
+from django.core.validators import *
 
 class Categoria(Model):
     categoria = CharField(max_length=50)
@@ -42,10 +43,9 @@ class DetallePlano(Model):
     planoid = ForeignKey(Plano, on_delete=CASCADE)
     codigo = ForeignKey(Estandar, on_delete=CASCADE)
     tipo  = CharField(max_length=15)
-    cantidad = IntegerField()
-    ancho_mm = IntegerField()
-    alto_mm = IntegerField()
+    cantidad = IntegerField(validators=[MinValueValidator(1),MaxValueValidator(20)])
+    ancho_mm = IntegerField(validators=[MinValueValidator(100),MaxValueValidator(4000)])
+    alto_mm = IntegerField(validators=[MinValueValidator(100),MaxValueValidator(4000)])
     # autor = ForeignKey(User, on_delete=CASCADE) # creo que no hace falta esto, si ya esta en el modelo anterior, al cual este apunta
-    comentario = TextField(default=None, null=True, blank=True)
-
+    comentario = CharField(max_length=60,blank=True,default=None,null=True)
 

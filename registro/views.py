@@ -86,29 +86,22 @@ def nuevo_plano(request):
 def nuevo_plano_detalle(request):
     DetallePlanoFormSet = formset_factory(forms.DetallePlanoForm)
     planoid=int(request.GET.get('planoid'))
-    print("planoid is "+str(planoid))
+    ot=models.Plano.objects.get(planoid=planoid).ot
     if request.method == "POST":
         formset=DetallePlanoFormSet(request.POST)
         if formset.is_valid():
             for form in formset:
                 form.instance.planoid=models.Plano.objects.get(planoid=planoid)
                 form.instance.autor=request.user
-
-                form.fields['comentario'].required=False
                 form.save().save()
-            return HttpResponseRedirect("/")
-                # form.save()#codigo=codigo)
-                # return HttpResponseRedirect('/codigos/'+codigo)
-            # generate each 'plano' image...!!!
-            # then add them up...!
-            # then redirect to the view (showing the image and the details below in table form :D) 
+            #return HttpResponseRedirect("/")
+            return HttpResponseRedirect(reverse("registro:detalleplano",args=[ot]))
     else:
         formset = DetallePlanoFormSet()
-        #estandarobj=get_object_or_404(models.Estandar, codigo=codigo)
     
     return render(request,
                   template_name="registro/nuevo-plano-detalle.html",
-                  context={'formset':formset})#,'codigo':codigo})
+                  context={'formset':formset})
 
 
 # another view, little pics included
@@ -194,7 +187,8 @@ def plano_lista(request):
 from .utils import generarplanos
 @login_required
 def plano_detalle(request, ot):
-    plano=models.Plano.objects.filter(ot=ot,autor=request.user.id).first()
+    # show the last one created with such ot
+    plano=models.Plano.objects.filter(ot=ot,autor=request.user.id).last()
     plano_detalle=models.DetallePlano.objects.filter(planoid=plano.planoid)
 
     # use submit button to regenerate (save again) the plano image
@@ -204,11 +198,13 @@ def plano_detalle(request, ot):
     # ?should i get a plano image check (to see if any exists)
     #print("settings.MEDIA_URL:",settings.MEDIA_URL)
     #print("settings.MEDIA_ROOT:",settings.MEDIA_ROOT)
+
     generarplanos.generate_and_save_plano(plano.planoid,
                                           plano_detalle,
-                                          settings.MEDIA_URL+"/estandar", #input_images_url,
+                                          settings.MEDIA_URL+"estandar", #input_images_url,
                                           settings.MEDIA_ROOT+"/estandar", #input_images_folder,
                                           settings.MEDIA_ROOT+"/planos")
+
     # PENDING: SHOULD ALSO CHECK CONDTIONS (MAX GLASSES=20, MAX_WIDHT HEIGHT, ETC (we can add these checks later))
 
     return render(request,

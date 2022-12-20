@@ -20,7 +20,7 @@ nav {
 }
 
 .nav a {
-	font-size: 2vw;
+	font-size: 2.5vw;
 }
 
 .nav ul {
@@ -52,7 +52,6 @@ nav {
 }
 
 @media screen and (max-width:600px) {
-/*HERE*/
 	.nav ul, #left.nav, #right.nav  {
 		flex-direction: column;
 	}
@@ -61,14 +60,15 @@ nav {
 		display: flex;
 		flex-direction: column;
 	}
-
 }
 
-@media screen and (min-width:100vw/*300px*/) {
+/*
+@media screen and (min-width:100vw) {
 	* {
 		font-size: large;
 	}
 }
+*/
 
 #right.nav ul {
 	justify-content: right;
@@ -78,14 +78,15 @@ nav li {
 	list-style: none;
 	margin: 0.2em 1em;
 	align-self: center;
-	text-shadow: 0.05em 0 #2fa753;
+	text-shadow: 0.1em 0 #2fa753;
 	/*text-align: center;*/
 	/*text-shadow: 0.1em 0.1em #2fa753;*/
 }
 
-li {
+ul li {
 	list-style: none;
 }
+
 #user {
 	align-self: center;
 	margin: auto 1em;
@@ -112,16 +113,76 @@ main {
 	text-align: center;
 }
 
+/*
 main > * {
 	margin: 1em 1em;
 	padding: 1em 1em;
 }
+*/
 
-main p, main a, main input, main button, main label {
-	font-size: 5vw;
+main p, main a, main input, main button, main label, main select, main img, main li {
+	font-size: 3.5vw;
 }
 
 main p, main li {
 	margin: 1em 1em;
 }
 
+h1 {
+	font-size: 7vw;
+}
+h2 {
+	font-size: 5vw;
+}
+h3 {
+	font-size: 4vw;
+}
+h4 {
+	font-size: 3vw;
+}
+
+h1,h2,h3,h4 {
+	margin: 3vw 0;
+}
+
+#tabla-plano-detalle {
+	display: inline-block;
+	align-content: center;
+	font-size: 2vw;
+	border: 1px solid black;
+	margin: 5%;
+}
+	
+#planodetalle {
+	border-collapse: collapse;
+}
+
+#planodetalle table,
+#planodetalle tbody,
+#planodetalle th,
+#planodetalle tr,
+#planodetalle td {
+	border: 1px solid black;
+}
+
+#planodetalle th {
+	background-color: #009cb0;
+	padding: 0.5em;
+}
+
+
+#info-plano {
+	font-size: 1.5vw;
+}
+
+.plano {
+	margin: 0 30%;
+	height: 30vh;
+	/*height: 25px;*/
+}
+
+.plano img {
+	display: inline-block;
+	width: auto;
+	height: 100%;
+}

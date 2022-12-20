@@ -1,11 +1,14 @@
 {% extends "./base.html" %}
 
 {% block content %}
+
 <h2>OT {{ot}}</h2>
 
+<div class="plano">
 {# primero la imagen, si es que existe #}
-<img width="300 px" src="/imagenes/planos/{{ plano.planoid }}.png">
+<img id="plano" src="/imagenes/planos/{{ plano.planoid }}.png">
 <!-- after deployment this wont work (not even when debug mode is off, accoding to the documentation) -->
+</div>
 
 <br>
 <form action=''>
@@ -15,32 +18,36 @@
 {# datos del plano (cuando fue creado, que cliente, cuando fue generada #}
 {# datos del detalle de plano (cada pieza, por orden, con sus detalles) #}
 
+<!--
 <br>
 <br>
 <br>
-<p>plano # {{plano.planoid}}, creado el {{plano.fecha}}</p>
+<p id="info-plano">creado el {{plano.fecha}}</p>
+-->
 
 <br>
-<table>
-	<tr>
-		<th>Cantidad</th>
-		<th>Codigo (Estandar)</th>
-		<th>Tipo (de vidrio)</th>
-		<th>Ancho [mm]</th>
-		<th>Alto [mm]</th>
-		<th>Comentarios</th>
-	</tr>
-{% for pd in plano_detalle %}
-	<tr>
-		<td>{{pd.cantidad}}</td>
-		<td>{{pd.codigo}}</td>
-		<td>{{pd.tipo}}</td>
-		<td>{{pd.ancho_mm}}</td>
-		<td>{{pd.alto_mm}}</td>
-		<td>{{pd.comentario}}</td>
-	</tr>
-{% endfor %}
-</table>
+<div id="tabla-plano-detalle">
+	<table id="planodetalle">
+		<tr>
+			<th>Cantidad</th>
+			<th>Codigo Estandar</th>
+			<th>Tipo</th>
+			<th>Ancho [mm]</th>
+			<th>Alto [mm]</th>
+			<th>Comentarios</th>
+		</tr>
+	{% for pd in plano_detalle %}
+		<tr>
+			<td>{{pd.cantidad}}</td>
+			<td>{{pd.codigo}}</td>
+			<td>{{pd.tipo}}</td>
+			<td>{{pd.ancho_mm}}</td>
+			<td>{{pd.alto_mm}}</td>
+			<td>{{pd.comentario}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+</div>
 
 {% endblock %}
 

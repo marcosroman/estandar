@@ -4,11 +4,10 @@
 from PIL import Image, ImageDraw, ImageFont
 
 # parameters
-FRACTION_WIDTH_TO_COVER=0.5
+FRACTION_WIDTH_TO_COVER=0.3
 STARTING_FONT_SIZE=20
 FONTS_FOLDER = "/usr/share/fonts/truetype/open-sans/"
 FONT_FILENAME = FONTS_FOLDER + "OpenSans-Light.ttf"
-INPUT_IMG_EXTENSION = ".jpg" #?
 
 def img_width_fraction_covered(
         img_width, width_to_annotate, font_size, font_filename):
@@ -116,7 +115,7 @@ def generate_annotated_images_list(input_images_folder,images_data):
              an array of dictionaries (one entry per image to annotate)
              with keys 'estandar_code' (string), width (int), height (int)
              (later we'll be ading quantity and glass_type)
-    output: imageList
+    output: images_list
     '''
     INPUT_IMG_EXTENSION=".png"
     images_list = []
@@ -125,7 +124,6 @@ def generate_annotated_images_list(input_images_folder,images_data):
         img_filename = (input_images_folder + "/"
                         + img_data['estandar_code']
                         + INPUT_IMG_EXTENSION)
-        print("####! DEBUG: img_filename = ", img_filename)
         image = Image.open(img_filename)
         draw = ImageDraw.Draw(image)
 
@@ -138,12 +136,21 @@ def generate_annotated_images_list(input_images_folder,images_data):
         font = ImageFont.truetype(FONT_FILENAME, font_size)
 
         # annotate width and height:
+        # (width on the bottom, centered)
         draw.text((width*0.5,height*0.95),width_to_annotate,
                   fill="blue",font=font,anchor="ms")
-        # (width on the bottom, centered)
+        # (height to the left, vertically centered)
         draw.text((width*0.05,height*0.5),height_to_annotate,
                   fill="blue",font=font,anchor="lm")
-        # (height to the left, vertically centered)
+        # annotate code (up-center), 
+        draw.text((width*0.5,height*0.05),img_data['estandar_code'],
+                  fill='black',font=font,anchor="ms")
+        # type (centered at lower half), 
+        draw.text((width*0.5,height*0.75),img_data['type'],
+                  fill='green',font=font,anchor="ms")
+        # quantity (centered al upper half)
+        draw.text((width*0.5,height*0.25),"C="+str(img_data['quantity']),
+                  fill='red',font=font,anchor="ms")
 
         images_list.append(image)
 
@@ -202,7 +209,6 @@ def transform_detalle_planos_data(plano_detalle):
 
     img_data=list()
     for dp in plano_detalle:
-        print('codigo.codigo=',dp.codigo.codigo)
         dpd=dict()
         dpd['estandar_code']=dp.codigo.codigo
         dpd['width']=dp.ancho_mm
@@ -216,6 +222,11 @@ def transform_detalle_planos_data(plano_detalle):
 def generate_and_save_plano(
         plano_id, plano_detalle,
         input_images_url, input_images_folder, output_images_folder):
+    print("plano_id: ", plano_id)
+    print("plano_detalle: ",plano_detalle)
+    print("input_images_url: ",input_images_url)
+    print("input_images_folder: ",input_images_folder)
+    print("output_images_folder: ",output_images_folder)
     generated_image = paste_images(
                         generate_annotated_images_list(input_images_folder,
                           transform_detalle_planos_data(plano_detalle)))
