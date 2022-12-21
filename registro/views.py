@@ -63,46 +63,61 @@ def nuevo_codigo_comentarios(request):
                   context={'formset':formset,
                            'codigo':codigo})
 
+# only one view is enough here, not good ui otherwise
 @login_required
 def nuevo_plano(request):
-    if request.method == "POST":
-        form=forms.PlanoForm(request.POST)
-        if form.is_valid():
-            form.instance.autor=request.user
-            form.instance.fecha=datetime.now(tz=timezone.utc)
-            formtosave=form.save()
-            planoid=formtosave.planoid
-            formtosave.save()
-            url=reverse("registro:nuevo-plano-detalle")+"?planoid="+str(planoid)
-            return redirect(url)
-    else:
-        form=forms.PlanoForm()
-
-    return render(request,
-                  template_name="registro/nuevo-plano.html",
-                  context={'form':form})
-
-@login_required
-def nuevo_plano_detalle(request):
+    # here i'll be using two forms
     DetallePlanoFormSet = formset_factory(forms.DetallePlanoForm)
-    planoid=int(request.GET.get('planoid'))
-    ot=models.Plano.objects.get(planoid=planoid).ot
     if request.method == "POST":
-        formset=DetallePlanoFormSet(request.POST)
-        if formset.is_valid():
-            for form in formset:
+                # forms with post data
+        ot_form=forms.PlanoForm(request.POST)
+        plano_formset=DetallePlanoFormSet(request.POST)
+        # both shoud be valid
+        if ot_form.is_valid() and plano_formset.is_valid():
+            ot_form.instance.autor=request.user
+            ot_form.instance.fecha=datetime.now(tz=timezone.utc)
+            ot_formtosave=ot_form.save()
+            planoid=ot_formtosave.planoid
+            # get ot (maybe not needed now)
+            #planoid=int(request.GET.get('planoid'))
+            #ot=models.Plano.objects.get(planoid=planoid).ot
+            ot=ot_formtosave.ot
+            ot_formtosave.save()
+            for form in plano_formset:
                 form.instance.planoid=models.Plano.objects.get(planoid=planoid)
-                form.instance.autor=request.user
+                #form.instance.autor=request.user
                 form.save().save()
-            #return HttpResponseRedirect("/")
+
             return HttpResponseRedirect(reverse("registro:detalleplano",args=[ot]))
     else:
-        formset = DetallePlanoFormSet()
-    
-    return render(request,
-                  template_name="registro/nuevo-plano-detalle.html",
-                  context={'formset':formset})
+        ot_form=forms.PlanoForm()
+        plano_formset = DetallePlanoFormSet()
 
+    return render(request,
+                  template_name="registro/nuevoplano.html",
+                  context={'ot_form': ot_form,
+                           'plano_formset': plano_formset})
+
+#@login_required
+#def nuevo_plano_detalle(request):
+#    DetallePlanoFormSet = formset_factory(forms.DetallePlanoForm)
+#    planoid=int(request.GET.get('planoid'))
+#    ot=models.Plano.objects.get(planoid=planoid).ot
+#    if request.method == "POST":
+#        formset=DetallePlanoFormSet(request.POST)
+#        if formset.is_valid():
+#            for form in formset:
+#                form.instance.planoid=models.Plano.objects.get(planoid=planoid)
+#                form.instance.autor=request.user
+#                form.save().save()
+#            #return HttpResponseRedirect("/")
+#            return HttpResponseRedirect(reverse("registro:detalleplano",args=[ot]))
+#    else:
+#        formset = DetallePlanoFormSet()
+#    
+#    #return render(request,
+#    #              template_name="registro/nuevo-plano-detalle.html",
+#    #              #context={'formset':formset})
 
 # another view, little pics included
 def codigos_alt(request):
@@ -162,16 +177,8 @@ from .utils import generarplanos
 # plano that was created (highest planoid)
 # (so 2 url families here, /plano and /plano/<ot>)
 # for the current user
-
-# and maybe if there's no plano, it will render the first one
-
 # in /plano/<ot> i'll add a 'generate plano' button
 # (in case there are updates or things needed to be corrected)
-
-# and the controller should also check if there's no such image to create it,
-# i guess
-# but maybe not necessary since it would be created after the data is saved
-# so yes, check or generating at start is not needed
 @login_required
 def plano_lista(request):
     ots = models.Plano.objects.filter(autor
@@ -199,13 +206,13 @@ def plano_detalle(request, ot):
     #print("settings.MEDIA_URL:",settings.MEDIA_URL)
     #print("settings.MEDIA_ROOT:",settings.MEDIA_ROOT)
 
+    # PENDING: SHOULD ALSO CHECK CONDTIONS (MAX GLASSES=20, MAX_WIDHT HEIGHT, ETC (we can add these checks later))
+
     generarplanos.generate_and_save_plano(plano.planoid,
                                           plano_detalle,
                                           settings.MEDIA_URL+"estandar", #input_images_url,
                                           settings.MEDIA_ROOT+"/estandar", #input_images_folder,
                                           settings.MEDIA_ROOT+"/planos")
-
-    # PENDING: SHOULD ALSO CHECK CONDTIONS (MAX GLASSES=20, MAX_WIDHT HEIGHT, ETC (we can add these checks later))
 
     return render(request,
                   template_name="registro/detalleplano.html",

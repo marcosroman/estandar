@@ -1,0 +1,38 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block content %}
+
+{# la idea es tener 2 forms: el primero seria para la carga de los datos iniciales del plano, el 2do seria un formset para ir agregando los detalles --- al comienzo, el primero aparece activado y el 2do desactivado --- una vez cargado el primero, se desactiva y aparece el 2do --- una vez cargado el 2do, redirect a lo guardado (mas adelante lo que quiero es redirect a la imagen que se genera!) #}
+
+<!--
+	<h3>OT</h3>
+	<form action='' method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+			{{ ot_form.as_p }}
+			{#<br><input type="submit" value="Continuar">#}
+	</form>
+
+	<h3>Cargar detalles del plano</h3>
+-->
+	<script type="text/javascript" src="{% static 'js/jquery-3.6.0.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.formset.js' %}"></script>
+	<script type="text/javascript">
+		$(function() {
+				$('#myform tbody').formset();
+		})
+	</script>
+
+	<form id="myform" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ ot_form.as_p }}
+
+		<table>
+			{{ plano_formset.as_table }}
+		</table>
+		<br>
+		<input type="submit" value="Guardar">
+	</form>
+
+{% endblock %}
+

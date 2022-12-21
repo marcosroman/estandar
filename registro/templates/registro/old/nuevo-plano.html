@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block content %}
+
+{# la idea es tener 2 forms: el primero seria para la carga de los datos iniciales del plano, el 2do seria un formset para ir agregando los detalles --- al comienzo, el primero aparece activado y el 2do desactivado --- una vez cargado el primero, se desactiva y aparece el 2do --- una vez cargado el 2do, redirect a lo guardado (mas adelante lo que quiero es redirect a la imagen que se genera!) #}
+
+<form action='' method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+		{{ form.as_p }}
+	<br>
+	<input type="submit" value="Continuar">
+</form>
+
+
+{% endblock %}
+
