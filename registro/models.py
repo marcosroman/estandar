@@ -18,14 +18,21 @@ class Estandar(Model):
         return self.codigo
 
 class Comentarios(Model):
-    codigo=ForeignKey(Estandar, on_delete=CASCADE)
-    comentario=CharField(max_length=100)
+    codigo = ForeignKey(Estandar, on_delete=CASCADE)
+    comentario = CharField(max_length=100)
     autor = ForeignKey(User, on_delete=CASCADE)
 
     class Meta:
         constraints=(
                 UniqueConstraint(fields=['codigo','comentario'],
                                         name='unique_comentario'),)
+
+class Tipos(Model):
+    codigo = CharField(max_length=15, unique=True, blank=False)
+    descripcion = CharField(max_length=50, blank=False)
+
+    def __str__(self):
+        return self.codigo+"("+self.descripcion+")"
 
 class Plano(Model):
     planoid = AutoField(primary_key=True)
