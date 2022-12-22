@@ -34,7 +34,9 @@
 			<th>Tipo</th>
 			<th>Ancho [mm]</th>
 			<th>Alto [mm]</th>
-			<th>Comentarios</th>
+			{% if there_are_comments %}
+				<th>Comentarios</th>
+			{% endif %}
 		</tr>
 	{% for pd in plano_detalle %}
 		<tr>
@@ -43,7 +45,9 @@
 			<td>{{pd.tipo}}</td>
 			<td>{{pd.ancho_mm}}</td>
 			<td>{{pd.alto_mm}}</td>
-			<td>{{pd.comentario}}</td>
+			{% if there_are_comments %}
+				<td>{{pd.comentario}}</td>
+			{% endif %}
 		</tr>
 	{% endfor %}
 	</table>

@@ -66,29 +66,41 @@ def nuevo_codigo_comentarios(request):
 # only one view is enough here, not good ui otherwise
 @login_required
 def nuevo_plano(request):
-    # here i'll be using two forms
+    MAX_TOTAL_QUANTITY = 20
     DetallePlanoFormSet = formset_factory(forms.DetallePlanoForm)
+
     if request.method == "POST":
-                # forms with post data
+        # forms with post data
         ot_form=forms.PlanoForm(request.POST)
         plano_formset=DetallePlanoFormSet(request.POST)
         # both shoud be valid
         if ot_form.is_valid() and plano_formset.is_valid():
-            ot_form.instance.autor=request.user
-            ot_form.instance.fecha=datetime.now(tz=timezone.utc)
-            ot_formtosave=ot_form.save()
-            planoid=ot_formtosave.planoid
-            # get ot (maybe not needed now)
-            #planoid=int(request.GET.get('planoid'))
+            ot_form.instance.autor = request.user
+            ot_form.instance.fecha = datetime.now(tz=timezone.utc)
+            ot_formtosave = ot_form.save()
+            planoid = ot_formtosave.planoid
             #ot=models.Plano.objects.get(planoid=planoid).ot
-            ot=ot_formtosave.ot
+            # PENDING: SHOULD ALSO CHECK CONDTIONS (MAX GLASSES=20, MAX_WIDHT HEIGHT, ETC (we can add these checks later))
+            # before saving anything... i want to perform an extra check on the formsets... the sum of all quantity fields should be less tan MAX_TOTAL_QUANTITY  (defined above)
+            # (i see no other place to put this)
+             
+            #total_quantity=0
+            #for form in plano_formset:
+            #    print("the form ",form," has cantidad = ", form.instance.cantidad)
+            #    total_quantity += form.instance.cantidad
+            #print ("TOTAL QUANTITY IS ", total_quantity)
+            #if (total_quantity <= MAX_TOTAL_QUANTITY):
+            #    ot=ot_formtosave.ot
+            ot = ot_formtosave.ot
             ot_formtosave.save()
+
             for form in plano_formset:
                 form.instance.planoid=models.Plano.objects.get(planoid=planoid)
-                #form.instance.autor=request.user
                 form.save().save()
 
             return HttpResponseRedirect(reverse("registro:detalleplano",args=[ot]))
+            #else:
+            #    print("errrorrrrrrr CON LA CANTIDAD")
     else:
         ot_form=forms.PlanoForm()
         plano_formset = DetallePlanoFormSet()
@@ -194,31 +206,27 @@ def plano_lista(request):
 from .utils import generarplanos
 @login_required
 def plano_detalle(request, ot):
-    # show the last one created with such ot
     plano=models.Plano.objects.filter(ot=ot,autor=request.user.id).last()
+    # show the last one created with such ot
     plano_detalle=models.DetallePlano.objects.filter(planoid=plano.planoid)
-
-    # use submit button to regenerate (save again) the plano image
-    #if request.method == "GET":
-    #print("REGENERAR IMAGEN")
-    # REGENERAR IMAGEN
-    # ?should i get a plano image check (to see if any exists)
-    #print("settings.MEDIA_URL:",settings.MEDIA_URL)
-    #print("settings.MEDIA_ROOT:",settings.MEDIA_ROOT)
-
-    # PENDING: SHOULD ALSO CHECK CONDTIONS (MAX GLASSES=20, MAX_WIDHT HEIGHT, ETC (we can add these checks later))
 
     generarplanos.generate_and_save_plano(plano.planoid,
                                           plano_detalle,
-                                          settings.MEDIA_URL+"estandar", #input_images_url,
-                                          settings.MEDIA_ROOT+"/estandar", #input_images_folder,
+                                          #input_images_url:
+                                          settings.MEDIA_URL+"estandar",
+                                          #input_images_folder:
+                                          settings.MEDIA_ROOT+"/estandar",
                                           settings.MEDIA_ROOT+"/planos")
+
+    # check if there are any comments...
+    there_are_comments = 0<sum(map(lambda x: len(x.comentario), plano_detalle))
 
     return render(request,
                   template_name="registro/detalleplano.html",
                   context = {'ot':ot,
                              'plano':plano,
-                             'plano_detalle':plano_detalle})
+                             'plano_detalle':plano_detalle,
+                             'there_are_comments':there_are_comments})
 
 def inicio(request):
     return render(request, 

@@ -9,7 +9,6 @@ class Categoria(Model):
         return self.categoria
 
 class Estandar(Model):
-    #codigo = models.CharField(max_length=20)
     codigo = SlugField(unique=True)
     imagen = ImageField(upload_to='estandar')
     categoria = ForeignKey(Categoria, on_delete=CASCADE)
@@ -20,7 +19,6 @@ class Estandar(Model):
 
 class Comentarios(Model):
     codigo=ForeignKey(Estandar, on_delete=CASCADE)
-    #numerolinea=models.IntegerField() # * hacer que se autoincremente
     comentario=CharField(max_length=100)
     autor = ForeignKey(User, on_delete=CASCADE)
 
@@ -32,8 +30,7 @@ class Comentarios(Model):
 class Plano(Model):
     planoid = AutoField(primary_key=True)
     fecha = DateTimeField()
-    ot = IntegerField()
-    #vendedor = CharField(max_length=100)
+    ot = IntegerField(validators=[MinValueValidator(0)])
     #cliente = CharField(max_length=100)
     #obra = CharField(max_length=100)
     autor = ForeignKey(User, on_delete=CASCADE)
@@ -43,9 +40,18 @@ class DetallePlano(Model):
     planoid = ForeignKey(Plano, on_delete=CASCADE)
     codigo = ForeignKey(Estandar, on_delete=CASCADE)
     tipo  = CharField(max_length=15)
-    cantidad = IntegerField(validators=[MinValueValidator(1),MaxValueValidator(20)])
-    ancho_mm = IntegerField(validators=[MinValueValidator(100),MaxValueValidator(4000)])
-    alto_mm = IntegerField(validators=[MinValueValidator(100),MaxValueValidator(4000)])
-    # autor = ForeignKey(User, on_delete=CASCADE) # creo que no hace falta esto, si ya esta en el modelo anterior, al cual este apunta
-    comentario = CharField(max_length=60,blank=True,default=None,null=True)
+    cantidad = IntegerField(validators=[MinValueValidator(1),
+                                        MaxValueValidator(20)])
+    ancho_mm = IntegerField(validators=[MinValueValidator(100),
+                                        MaxValueValidator(4000)])
+    alto_mm = IntegerField(validators=[MinValueValidator(100),
+                                       MaxValueValidator(4000)])
+    comentario = CharField(max_length=60,blank=True,default="") # for best practices
+
+    class Meta:
+        constraints = [
+                UniqueConstraint(fields=['planoid','codigo','tipo','ancho_mm',
+                                         'alto_mm','comentario'],
+                                 name='all_unique'),
+        ]
 
