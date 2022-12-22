@@ -200,7 +200,6 @@ def paste_images(images_list):
                    horizontal_merge(images_list[3],images_list[4]),
                    images_list[5]))
 
-
 def transform_detalle_planos_data(plano_detalle):
     '''
     this will receive a querylist consisting of entries in detalle_planos
@@ -214,14 +213,16 @@ def transform_detalle_planos_data(plano_detalle):
         dpd['width']=dp.ancho_mm
         dpd['height']=dp.alto_mm
         dpd['quantity']=dp.cantidad
-        dpd['type']=dp.tipo
+        #dpd['type']=dp.tipo
+        dpd['type']=dp.tipo.codigo
         img_data.append(dpd)
 
     return img_data
 
 def generate_and_save_plano(
         plano_id, plano_detalle,
-        input_images_url, input_images_folder, output_images_folder):
+        input_images_url, input_images_folder,
+                          output_images_folder):
     print("plano_id: ", plano_id)
     print("plano_detalle: ",plano_detalle)
     print("input_images_url: ",input_images_url)
@@ -230,6 +231,5 @@ def generate_and_save_plano(
     generated_image = paste_images(
                         generate_annotated_images_list(input_images_folder,
                           transform_detalle_planos_data(plano_detalle)))
-    print("##!#!$$! DEBUG: now im saving")
     generated_image.save(output_images_folder+"/"+str(plano_id)+".png")
 

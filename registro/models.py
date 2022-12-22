@@ -46,7 +46,8 @@ class Plano(Model):
 class DetallePlano(Model):
     planoid = ForeignKey(Plano, on_delete=CASCADE)
     codigo = ForeignKey(Estandar, on_delete=CASCADE)
-    tipo  = CharField(max_length=15)
+    #tipo  = CharField(max_length=15)
+    tipo = ForeignKey(Tipos, on_delete=CASCADE)
     cantidad = IntegerField(validators=[MinValueValidator(1),
                                         MaxValueValidator(20)])
     ancho_mm = IntegerField(validators=[MinValueValidator(100),
