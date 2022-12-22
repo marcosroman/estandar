@@ -32,7 +32,11 @@ class Tipos(Model):
     descripcion = CharField(max_length=50, blank=False)
 
     def __str__(self):
-        return self.codigo+"("+self.descripcion+")"
+        # avoid long descriptions
+        descripcion = self.descripcion[:20]
+        if len(self.descripcion)>20:
+            descripcion += "..."
+        return self.codigo+" ("+self.descripcion+")"
 
 class Plano(Model):
     planoid = AutoField(primary_key=True)
