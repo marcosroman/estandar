@@ -33,8 +33,8 @@ class Tipos(Model):
 
     def __str__(self):
         # avoid long descriptions
-        descripcion = self.descripcion[:20]
-        if len(self.descripcion)>20:
+        descripcion = self.descripcion[:12]
+        if len(self.descripcion)>12:
             descripcion += "..."
         return self.codigo+" ("+self.descripcion+")"
 
