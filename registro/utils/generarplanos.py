@@ -6,8 +6,9 @@ from PIL import Image, ImageDraw, ImageFont
 # parameters
 FRACTION_WIDTH_TO_COVER=0.3
 STARTING_FONT_SIZE=20
-FONTS_FOLDER = "/usr/share/fonts/truetype/open-sans/"
-FONT_FILENAME = FONTS_FOLDER + "OpenSans-Light.ttf"
+#FONTS_FOLDER = "/usr/share/fonts/truetype/open-sans/"
+FONTS_FOLDER = "fonts/"
+FONT_FILENAME = FONTS_FOLDER + "DejaVuSans.ttf"
 
 def img_width_fraction_covered(
         img_width, width_to_annotate, font_size, font_filename):

@@ -28,6 +28,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'imagenes')
 MEDIA_URL = '/imagenes/'
 
 
+import pymysql
+pymysql.install_as_MySQLdb()
+import MySQLdb
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -94,10 +97,23 @@ WSGI_APPLICATION = 'estandar.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'estandar',
+        'USER': 'estandar',
+        'PASSWORD': 'planoscalidad',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        }
+        #'OPTIONS': {
+        #    'read_defaults_file': BASE_DIR / 'my.cnf'
+        #}
     }
-}
+
+#'default': {
+#    'ENGINE': 'django.db.backends.sqlite3',
+#    'NAME': BASE_DIR / 'db.sqlite3',
+#}
+#}
 
 
 # Password validation
