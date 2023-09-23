@@ -238,5 +238,5 @@ def instrucciones(request):
                   context = {'MEDIA_URL':settings.MEDIA_URL})
 
 def catalogo(request):
-    return redirect (settings.MEDIA_URL+'/catalogo.pdf')
+    return redirect (settings.STATIC_URL+'other/catalogo.pdf')
     
