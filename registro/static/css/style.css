@@ -1,103 +1,89 @@
-* {
-	font-family: sans-serif;
-	margin: 0;
-	padding: 0;
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 nav {
 	display: flex;
 	flex-direction: row;
-	flex-grow: 1;
-	font-weight: bold;
-	margin: 15px;
-	padding: 15px;
+	justify-content: space-between;
+	max-width: 100%;
+	background-color: #333;
 }
 
-.nav {
-	display: flex;
-	flex-direction: row;
-	flex-grow: 1;
+/* Dropdown Button */
+.dropbtn {
+	background-color: #333;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+	flex: 1 1 auto;
 }
 
-.nav a {
-	font-size: 2.5vw;
-}
-
-.nav ul {
-	display: flex;
-	flex-direction: row;
-	flex-grow: 1;
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: green;
 }
 
 
-#nav-mp, #nav-np { 
-	text-align: left;
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
 }
 
-#nav-pe, #nav-ne {
-	text-align: right;
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
 }
 
-#left.nav .estandarplanos {
-	display: grid;
-	grid-template-columns: 50% 50%;
-	flex-grow: 1;
+.right  {
+	/*justify-content: right;*/
+	margin-right: 1.5em;
+	/*float: right;*/
 }
 
-#right.nav {
-	justify-content: flex-end;
-	align-items: center;
-	flex-flow: row-reverse;
-	justify-content: right;
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-@media screen and (max-width:600px) {
-	.nav ul, #left.nav, #right.nav  {
-		flex-direction: column;
-	}
 
-	#left.nav .estandarplanos {
-		display: flex;
-		flex-direction: column;
-	}
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+	background-color: #0078bf;
 }
 
-/*
-@media screen and (min-width:100vw) {
-	* {
-		font-size: large;
-	}
-}
-*/
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
 
-#right.nav ul {
-	justify-content: right;
-}
 
-nav li {
-	list-style: none;
-	margin: 0.2em 1em;
-	align-self: center;
-	/*text-shadow: 0.1em 0 #2fa753; -> this looks ugly actually */
-	/*text-align: center;*/
-	/*text-shadow: 0.1em 0.1em #2fa753;*/
-}
 
-ul li {
-	list-style: none;
-}
 
 #user {
 	align-self: center;
 	margin: auto 1em;
 }
 
+/*
 a, a:link, a:visited, a:active {
   text-decoration: none;
   color: #0078bf;
 }
 
 a:hover { color: #2fa753 !important; }
+*/
 
 form {
 	display: inline-block;
@@ -186,3 +172,97 @@ h1,h2,h3,h4 {
 	width: auto;
 	height: 100%;
 }
+
+
+/*
+* {
+	font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+nav {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	font-weight: bold;
+	margin: 15px;
+	padding: 15px;
+}
+
+.nav {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+.nav a {
+	font-size: 2.5vw;
+}
+
+.nav ul {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+
+#nav-mp, #nav-np { 
+	text-align: left;
+}
+
+#nav-pe, #nav-ne {
+	text-align: right;
+}
+
+#left.nav .estandarplanos {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	flex-grow: 1;
+}
+
+#right.nav {
+	justify-content: flex-end;
+	align-items: center;
+	flex-flow: row-reverse;
+	justify-content: right;
+}
+
+@media screen and (max-width:600px) {
+	.nav ul, #left.nav, #right.nav  {
+		flex-direction: column;
+	}
+
+	#left.nav .estandarplanos {
+		display: flex;
+		flex-direction: column;
+	}
+}
+*/
+
+/*
+@media screen and (min-width:100vw) {
+	* {
+		font-size: large;
+	}
+}
+*/
+
+/*
+#right.nav ul {
+	justify-content: right;
+}
+
+nav li {
+	list-style: none;
+	margin: 0.2em 1em;
+	align-self: center;
+}
+*/
+/*
+ul li {
+	list-style: none;
+}
+*/
+
+

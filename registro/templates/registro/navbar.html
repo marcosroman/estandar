@@ -1,23 +1,33 @@
+{% load static %}
+<script defer type="text/javascript" src="{% static 'js/toggle.js' %}"></script>
+
 <nav>
-	<div>
-		<ul>
-			<li><a target="_blank" href="{% url 'registro:catalogo' %}">Catalogo</a></li>
-				<li id="nav-pe"><a href="{% url 'registro:codigosporcategoria' %}">Planos Estandar</a></li>
-				{% if user.is_authenticated %}
-					<li><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Estandar</a></li>
-					<li><a href="{% url 'registro:nuevo-plano' %}">Nuevo Plano</a></li>
-					<li><a href="{% url 'registro:listaplanos' %}">Mis planos</a></li> {# deberia ordenar por fecha y ot #}
-				{% endif %}
-		</ul>
-
-		<ul>
-		{% if user.is_authenticated %}
-				<li><a href="{% url 'registro:instrucciones' %}">Ayuda?</a></li>
-				<li><a href="{% url 'logout' %}">Salir</a>
-				<li><a href="{% url 'password_change' %}">({{user}})</a></li>
-		{% else %}
-				<li><a href="{% url 'login' %}">Ingresar</a>
-		{% endif %}
-		</ul>
+	<div class="dropdown">
+		<button onclick="toggleLeftDropdown()" class="dropbtn">≡ Estandar</button>
+		<!--<a href="#home" class="active">Estandar</a>-->
+		<div class="dropdown-content" id="leftDropdown">
+			{% if user.is_authenticated %}
+				<a href="{% url 'registro:nuevo-plano' %}">Generar Nuevo Plano</a>
+				<a href="{% url 'registro:nuevo-codigo' %}">Cargar Nuevo Estandar</a>
+				<hr>
+				<a href="{% url 'registro:listaplanos' %}">Ver Mis Planos</a>
+				<a href="{% url 'registro:codigosporcategoria}">Ver Códigos Estandar Cargados</a>
+				<a target="_blank" href="{% url 'registro:catalogo' %}">Ver Catálogo (externo)</a>
+				<hr>
+				<a href="{% url 'registro:instrucciones' %}">¿Cómo usar?</a>
+			{% else %}
+				<a href="{% url 'login' %}">Iniciar Sesión</a>
+			{% endif %}
+		</div>
+	</div>
+		
+	{% if user.is_authenticated %}
+		<div class="dropdown right">
+			<button onclick="toggleRightDropdown()" class="dropbtn">{{request.user}}<!--🙂--></button>
+			<div class="dropdown-content" id="rightDropdown">
+				<a href="{% url 'password_change' %}">Cambiar contraseña</a>
+				<a href="{% url 'logout' %}">Cerrar Sesión</a>
+			</div>
+		</div>
+	{% endif %}
 </nav>
-
