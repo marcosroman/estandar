@@ -1,32 +1,23 @@
 <nav>
-	<div class="nav" id="left">
+	<div>
 		<ul>
 			<li><a target="_blank" href="{% url 'registro:catalogo' %}">Catalogo</a></li>
-			<div class="estandarplanos">
 				<li id="nav-pe"><a href="{% url 'registro:codigosporcategoria' %}">Planos Estandar</a></li>
 				{% if user.is_authenticated %}
-					<li id="nav-mp"><a href="{% url 'registro:listaplanos' %}">Mis planos</a></li> {# deberia ordenar por fecha y ot #}
-					<li id="nav-ne"><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Estandar</a></li>
-					<li id="nav-np"><a href="{% url 'registro:nuevo-plano' %}">Nuevo Plano</a></li>
+					<li><a href="{% url 'registro:nuevo-codigo' %}">Nuevo Estandar</a></li>
+					<li><a href="{% url 'registro:nuevo-plano' %}">Nuevo Plano</a></li>
+					<li><a href="{% url 'registro:listaplanos' %}">Mis planos</a></li> {# deberia ordenar por fecha y ot #}
 				{% endif %}
-			</div>
 		</ul>
-	</div>
 
-
-	<div class="nav" id="right">
+		<ul>
 		{% if user.is_authenticated %}
-			{#<li><a href="{% url 'password_change' %}">Contraseña</a></li>-->#}
-			{#<p id="user">({{user}})</p>#}
-			<ul>
-				<li><a href="{% url 'registro:instrucciones' %}">?</a></li>
-				{#<!--<li><a href="{% url 'password_change' %}">Contraseña</a></li>-->#}
+				<li><a href="{% url 'registro:instrucciones' %}">Ayuda?</a></li>
 				<li><a href="{% url 'logout' %}">Salir</a>
-					<li><a href="{% url 'password_change' %}">({{user}})</a></li>
+				<li><a href="{% url 'password_change' %}">({{user}})</a></li>
 		{% else %}
-			<ul>
 				<li><a href="{% url 'login' %}">Ingresar</a>
 		{% endif %}
-			</ul>
+		</ul>
 </nav>
 
