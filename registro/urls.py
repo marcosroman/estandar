@@ -17,6 +17,4 @@ urlpatterns = [
         path('planos',views.plano_lista, name='listaplanos'),
         path('planos/<int:ot>',views.plano_detalle, name='detalleplano'),
         path('catalogo',views.catalogo, name='catalogo'),
-        #path('test',views.test,name='test'),
-        #path('accounts/login/',auth_views.LoginView.as_view()),
         ]
