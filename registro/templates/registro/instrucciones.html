@@ -5,20 +5,27 @@
 <h3>Planos Estandar</h3>
 
 <div id="texto-instrucciones">
-<p>Esta app web sirve para generar planos compuestos por <a target="_blank" href={% url 'registro:catalogo' %}>planos estandar</a>.
+<p>Esta app web sirve para generar planos compuestos por planos <a target="_blank" href={% url 'registro:catalogo' %}>estandar</a>.
 
 <p>Para hacer uso de un plano estandar, este debe haber sido previamente cargado.</p>
 
-<p>Si un codigo estandar todavia no fue cargado, podes agregarlo ingresando a <a href="{% url 'registro:nuevo-codigo' %}">Nuevo Estandar</a> e introduciendo los datos del catalogo:</p>
+<p>Si un código estandar todavía no fue cargado, podés agregarlo ingresando al menú <span class="dropbtn">≡ Estandar</span>,<br>seleccionando <a href="{% url 'registro:nuevo-codigo' %}">Cargar Nuevo Estandar</a> e introduciendo los datos del catálogo.</p>
 
-<ol><li>Se ingresa el codigo estandar y se escoge la categoria.</li><li> Para la imagen, <ol><li>seleccionamos la del catalogo,</li><li> copiamos (seleccionamos la imagen solamente, sin el nombre ni los comentarios) con ctrl+c o usando el menu,</li><li>luego pegamos (con ctrl+v).</li></ol> <li>Por ultimo, click en 'guardar'</li></ol>
+<h4>Detalles para la carga</h4>
+<ol><li>Se ingresa el código estandar y se escoge la categoría.</li><li> Para la imagen, <ol><li>seleccionamos la del catálogo,</li><li> copiamos (seleccionamos la imagen solamente, sin el nombre ni los comentarios) con ctrl+c o usando el menu,</li><li>luego pegamos (con ctrl+v).</li></ol> <li>Por último, click en 'Guardar'</li></ol>
 <p>y ya tenemos el nuevo plano estandar agregado.</p>
 
-<p>Se pueden agregar tambien los comentarios que figuran en el catalogo, una vez cargado.</p>
+<p>(Se pueden agregar tambien los comentarios que figuran en el catálogo, una vez cargado.)</p>
 
 <p>Los planos estandar que ya fueron cargados, se pueden acceder mediante el menu, siguiendo el enlace <a href="{% url 'registro:codigosporcategoria' %}">Planos Estandar</a> </p>
 
-<p>Para crear tus propios planos, elegi <a href="{% url 'registro:nuevo-plano' %}">Nuevo Plano</a> en el menu, donde ingresas el OT o Nro. de Venta, seguido de los detalles del mismo. Tras guardar, el plano se genera automaticamente. Por ultimo, para ver la lista de planos que ya generaste, utiliza la opcion <a href="{% url 'registro:listaplanos' %}">Mis planos</a> del menu.</p>
+<h4>Generar un nuevo plano (compuesto por planos estandar)</h4>
+<p>Para crear tus propios planos, elegí <a href="{% url 'registro:nuevo-plano' %}">Generar Nuevo Plano</a> en el menú, donde ingresás el OT o Nro. de Venta, seguido de los detalles del mismo.</p>
+
+<p>Tras guardar, el plano se genera automáticamente.</p>
+
+<h4>Detalles para la carga</h4>
+<p>Para ver la lista de planos que ya generaste, utilizá la opción <a href="{% url 'registro:listaplanos' %}">Mis planos</a> del menú.</p>
 
 
 {% endblock %}
