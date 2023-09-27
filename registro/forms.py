@@ -7,6 +7,7 @@ from django.utils.text import slugify
 from django.core.files.base import ContentFile
 from .models import *
 
+
 class PastedImageWidget(widgets.Widget):
     def render(self, name, value, attrs=None, renderer=None):
         if value is None: # though it's always None so far
@@ -15,6 +16,7 @@ class PastedImageWidget(widgets.Widget):
             html = "<img id='id_imagen' src='%s'/>" % value
         return mark_safe(html)
 
+
 class RegistroForm(ModelForm):
     imagen_container = forms.CharField(required=False,
                                        widget=forms.HiddenInput())
@@ -22,8 +24,8 @@ class RegistroForm(ModelForm):
     class Meta:
         model = Estandar
         exclude = ['autor']
-        widgets = { 'imagen' : PastedImageWidget() }
-    
+        widgets = {'imagen': PastedImageWidget()}
+
     # need this to complain in case no 'imagen' is pasted
     def clean(self):
         # https://github.com/twoscoops/two-scoops-of-django-1.8/issues/64
@@ -31,11 +33,11 @@ class RegistroForm(ModelForm):
         cleaned_data = super(RegistroForm, self).clean()
         imagen_container = cleaned_data.get("imagen_container")
         if imagen_container == "":
-            self.add_error('imagen_container','Agregar imagen!')
+            self.add_error('imagen_container', 'Agregar imagen!')
 
     def save(self, commit=True):
         self.instance.imagen.delete(False)
-        self.instance.codigo = self.instance.codigo.lower() # force lowercase
+        self.instance.codigo = self.instance.codigo.lower()  # force lowercase
         imgdata = self.cleaned_data['imagen_container'].split(',')
         try:
             ftype = imgdata[0].split(';')[0].split('/')[1]
@@ -48,7 +50,8 @@ class RegistroForm(ModelForm):
             raise 
             print('could not save file!')
         return super(RegistroForm, self).save(commit=commit)
-       
+
+
 class ComentariosForm(ModelForm):
     class Meta:
         model = Comentarios
@@ -81,15 +84,30 @@ class PlanoForm(ModelForm):
     class Meta:
         model = Plano
         exclude = ['fecha','autor','ultima_generacion_imagen']
-        widgets = { 'fecha' : forms.SelectDateWidget() }
+        #widgets = { 'fecha' : forms.SelectDateWidget() }
+
 
 class DetallePlanoForm(ModelForm):
     class Meta:
         model = DetallePlano
-        exclude = ['planoid','autor']
+        exclude = ['planoid', 'autor']
         # https://docs.djangoproject.com/en/1.10/topics/forms/modelforms/#overriding-the-default-fields
-        labels = {'comentario':'Comentario (opcional)'}
+        labels = {'comentario': 'Comentario (opcional)'}
+        widgets = {'tipo': forms.Select(attrs={"class": "tipo-select"})}
+
+
     #def __init__(self):
     #    super().__init__()
     #    self.field['comentario'].label+=" (opcional)"
+
+#class DetallePlanoForm(ModelForm):
+#    class Meta:
+#        model = DetallePlano
+#        exclude = ['planoid','autor']
+#        # https://docs.djangoproject.com/en/1.10/topics/forms/modelforms/#overriding-the-default-fields
+#        labels = {'comentario':'Comentario (opcional)'}
+#    #def __init__(self):
+#    #    super().__init__()
+#    #    self.field['comentario'].label+=" (opcional)"
+
 

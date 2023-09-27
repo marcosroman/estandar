@@ -95,7 +95,8 @@ form {
 }
 
 main {
-	margin: 0 auto;
+	/*margin: 0 auto;*/
+	margin: 2em;
 	text-align: center;
 }
 
@@ -265,4 +266,10 @@ ul li {
 }
 */
 
+div #planodetalle * select {
+	width: 100%;
+}
 
+.tipo-select {
+	width: 100%;
+}
