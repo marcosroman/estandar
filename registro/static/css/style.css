@@ -270,6 +270,41 @@ div #planodetalle * select {
 	width: 100%;
 }
 
+/* tipo select field in plano-detalle form */
 .tipo-select {
 	width: 100%;
 }
+
+a.add-row, a.delete-row {
+	display: block;
+	margin: 1em;
+	padding: 0.5em;
+	text-decoration: none;
+	border-style: solid;
+	border-radius: 5%;
+}
+
+a.add-row:hover, a.add-row:active {
+	background-color: green;
+	color: black;
+	border-color: black;
+}
+
+a.add-row {
+	background-color: white;
+	color: green;
+	border-color: green;
+}
+
+a.delete-row:hover, a.delete-row:active {
+	background-color: red;
+	color: black;
+	border-color: black;
+}
+
+a.delete-row {
+	background-color: white;
+	color: red;
+	border-color: red;
+}
+

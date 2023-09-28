@@ -1,4 +1,5 @@
-[{ "model" : "registro.tipos", "fields" : { "codigo" : "ANTIRR", "descripcion" : "ANTIRREFLEJOS CORTADO" } },
+[
+{ "model" : "registro.tipos", "fields" : { "codigo" : "ANTIRR", "descripcion" : "ANTIRREFLEJOS CORTADO" } },
 { "model" : "registro.tipos", "fields" : { "codigo" : "BCE04", "descripcion" : "BCE 04 MM TEMPLADO" } },
 { "model" : "registro.tipos", "fields" : { "codigo" : "CBCE03", "descripcion" : "BCE 03 MM CORTADO" } },
 { "model" : "registro.tipos", "fields" : { "codigo" : "CBCE04", "descripcion" : "BCE 04 MM CORTADO" } },
