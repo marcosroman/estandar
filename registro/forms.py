@@ -10,7 +10,7 @@ from .models import *
 
 class PastedImageWidget(widgets.Widget):
     def render(self, name, value, attrs=None, renderer=None):
-        if value is None: # though it's always None so far
+        if value is None:  # though it's always None so far
             html = "<img id='id_imagen' alt='(ctrl+v p/ pegar)'/>"
         else:
             html = "<img id='id_imagen' src='%s'/>" % value
@@ -55,36 +55,37 @@ class RegistroForm(ModelForm):
 class ComentariosForm(ModelForm):
     class Meta:
         model = Comentarios
-        exclude = ['codigo','autor']
+        exclude = ['codigo', 'autor']
 
     def save(self, codigo, commit=True):
         self.instance.codigo = Estandar.objects.get(codigo=codigo)
         self.instance.save()
         return super(ComentariosForm, self).save(commit=commit)
 
-# used in self-made list-view to show codigos... 
+
+# used in self-made list-view to show codigos...
 # to filter by category and-or (un)select show-images
 class FilterCodigosForm(Form):
-    mychoices=[('All','Mostrar Todos')]
+    mychoices = [('All', 'Mostrar Todos')]
     try:
         mychoices.extend(list(zip(Categoria.objects.all(),
                                   Categoria.objects.all())))
     except:
         pass
     filtro = forms.ChoiceField(widget=forms.Select(
-                                                attrs={'onchange':'submit()'}),
+                                             attrs={'onchange': 'submit()'}),
                                choices=mychoices)
-    #https://tuts-station.com/django-form-checkbox-validation-example.html
+    # https://tuts-station.com/django-form-checkbox-validation-example.html
     mostrarimagenes = forms.BooleanField(label='Mostar imagenes?',
                                          required=False,
                                          widget=forms.CheckboxInput(
-                                             attrs={'onchange':'submit()'}))
+                                             attrs={'onchange': 'submit()'}))
+
 
 class PlanoForm(ModelForm):
     class Meta:
         model = Plano
-        exclude = ['fecha','autor','ultima_generacion_imagen']
-        #widgets = { 'fecha' : forms.SelectDateWidget() }
+        exclude = ['fecha', 'autor', 'ultima_generacion_imagen']
 
 
 class DetallePlanoForm(ModelForm):
@@ -94,20 +95,3 @@ class DetallePlanoForm(ModelForm):
         # https://docs.djangoproject.com/en/1.10/topics/forms/modelforms/#overriding-the-default-fields
         labels = {'comentario': 'Comentario (opcional)'}
         widgets = {'tipo': forms.Select(attrs={"class": "tipo-select"})}
-
-
-    #def __init__(self):
-    #    super().__init__()
-    #    self.field['comentario'].label+=" (opcional)"
-
-#class DetallePlanoForm(ModelForm):
-#    class Meta:
-#        model = DetallePlano
-#        exclude = ['planoid','autor']
-#        # https://docs.djangoproject.com/en/1.10/topics/forms/modelforms/#overriding-the-default-fields
-#        labels = {'comentario':'Comentario (opcional)'}
-#    #def __init__(self):
-#    #    super().__init__()
-#    #    self.field['comentario'].label+=" (opcional)"
-
-

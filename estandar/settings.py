@@ -12,26 +12,21 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 DEBUG = True
-STATIC_ROOT = os.path.join(PROJECT_DIR,'staticfiles')
-#STATIC_ROOT = BASE_DIR / 'static'
-##TEMPLATE_DIRS = (os.path.join(PROJECT_DIR,'templates'))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'imagenes')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'imagenes')
 MEDIA_URL = '/imagenes/'
 
-
-import pymysql
-pymysql.install_as_MySQLdb()
-import MySQLdb
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -55,11 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #https://django-autocomplete-light.readthedocs.io/en/master/install.html
-    #'dal',
-    #'dal_select2',
-    # 'grappelli',
-    #=> i don't think i need this... XD
 ]
 
 MIDDLEWARE = [
@@ -105,17 +95,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
         }
-        #'OPTIONS': {
-        #    'read_defaults_file': BASE_DIR / 'my.cnf'
-        #}
     }
-
-#'default': {
-#    'ENGINE': 'django.db.backends.sqlite3',
-#    'NAME': BASE_DIR / 'db.sqlite3',
-#}
-#}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -150,8 +130,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-#STATIC_URL = '/estandar/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
