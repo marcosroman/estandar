@@ -13,12 +13,24 @@
 
 <form id="myform" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
-
 	{{ ot_form.as_p }}
 
-	<table>
-		{{ plano_formset.as_table }}
-	</table>
+	{% if error_message %}
+    <div class="error-alert">
+        {{ error_message }}
+    </div>
+	{% endif %}
+
+	{{ plano_formset.management_form }}
+		{% for plano_form in plano_formset %}
+		<table>
+				{{ plano_form.as_table }}
+				<!--<tr class="delete-btn-container"></tr>-->
+		</table>
+		{% endfor %}
+
+	<div class="add-btn-container"></div>
+
 	<br>
 	<input type="submit" value="Guardar">
 </form>

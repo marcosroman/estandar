@@ -11,6 +11,7 @@
 
 <br><br>
 {# mostramos los comentarios si existen; si no, mostramos link para agregar comentarios #}
+<!--
 {% if comentarios %}
 	<ul>
 	{% for c in comentarios %}
@@ -20,5 +21,6 @@
 {% else %}
 	<a href="{% url 'registro:nuevo-codigo-comentarios' %}?codigo={{object.codigo}}">Agregar comentarios</a>
 {% endif %}
+-->
 {% endblock %}
 

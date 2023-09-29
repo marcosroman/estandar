@@ -9,6 +9,7 @@
  * Licensed under the New BSD License
  * See: http://www.opensource.org/licenses/bsd-license.php
  */
+
 ;(function($) {
     $.fn.formset = function(opts)
     {
@@ -234,10 +235,10 @@
     $.fn.formset.defaults = {
         prefix: 'form',                  // The form prefix for your django formset
         formTemplate: null,              // The jQuery selection cloned to generate new form instances
-        addText: 'Agregar',              // Text for the add link
+        addText: 'Agregar otro',              // Text for the add link
         deleteText: 'Eliminar',          // Text for the delete link
-        addContainerClass: null,         // Container CSS class for the add link
-        deleteContainerClass: null,      // Container CSS class for the delete link
+        addContainerClass: 'add-btn-container',         // Container CSS class for the add link
+        deleteContainerClass: null,//'delete-btn-container',      // Container CSS class for the delete link
         addCssClass: 'add-row',          // CSS class applied to the add link
         deleteCssClass: 'delete-row',    // CSS class applied to the delete link
         formCssClass: 'dynamic-form',    // CSS class applied to each form in a formset

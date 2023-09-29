@@ -281,7 +281,7 @@ a.add-row, a.delete-row {
 	padding: 0.5em;
 	text-decoration: none;
 	border-style: solid;
-	border-radius: 5%;
+	/*border-radius: 5%;*/
 }
 
 a.add-row:hover, a.add-row:active {
@@ -308,3 +308,14 @@ a.delete-row {
 	border-color: red;
 }
 
+tbody.dynamic-form {
+	margin: 1em;
+  border: 2px solid #ccc;
+}
+
+.error-alert {
+	margin: 10%;
+	padding: 0.5em;
+	border: 3px solid red;
+	color: red;
+}

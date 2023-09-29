@@ -29,7 +29,7 @@ class Comentarios(Model):
     class Meta:
         constraints = (
                 UniqueConstraint(fields=['codigo', 'comentario'],
-                                 name='unique_comentario'))
+                                 name='unique_comentario'),)
 
 
 class Tipos(Model):
@@ -62,7 +62,7 @@ class DetallePlano(Model):
                                         MaxValueValidator(4000)])
     alto_mm = IntegerField(validators=[MinValueValidator(100),
                                        MaxValueValidator(4000)])
-    comentario = CharField(max_length=60, blank=True, default="")
+    comentario = CharField(max_length=30, blank=True, default="")
 
     class Meta:
         constraints = [

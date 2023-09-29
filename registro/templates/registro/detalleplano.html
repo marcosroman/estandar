@@ -10,11 +10,6 @@
 <!-- after deployment this wont work (not even when debug mode is off, accoding to the documentation) -->
 </div>
 
-<br>
-<form action=''>
-	<input type='submit' value="Regenerar plano">
-</form>
-
 {# datos del plano (cuando fue creado, que cliente, cuando fue generada #}
 {# datos del detalle de plano (cada pieza, por orden, con sus detalles) #}
 
@@ -52,6 +47,12 @@
 	{% endfor %}
 	</table>
 </div>
+
+<br>
+<form action=''>
+	<input type='submit' value="Regenerar plano">
+</form>
+
 
 {% endblock %}
 

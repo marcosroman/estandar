@@ -47,7 +47,7 @@ class RegistroForm(ModelForm):
                     ContentFile(
                         base64.decodebytes(bytes(imgdata[1], 'utf-8'))))
         except:
-            raise 
+            raise
             print('could not save file!')
         return super(RegistroForm, self).save(commit=commit)
 
@@ -93,5 +93,16 @@ class DetallePlanoForm(ModelForm):
         model = DetallePlano
         exclude = ['planoid', 'autor']
         # https://docs.djangoproject.com/en/1.10/topics/forms/modelforms/#overriding-the-default-fields
-        labels = {'comentario': 'Comentario (opcional)'}
-        widgets = {'tipo': forms.Select(attrs={"class": "tipo-select"})}
+        labels = {'codigo': 'Código',
+                  'tipo': 'Vidrio',
+                  'ancho_mm': 'Ancho [mm]',
+                  'alto_mm': 'Alto [mm]',
+                  'comentario': 'Comentario (opcional)'}
+        widgets = {'cantidad': forms.NumberInput(attrs={"min": "1",
+                                                        "max": "20",
+                                                        "value": "1"}),
+                   'ancho_mm': forms.NumberInput(attrs={"min": "100",
+                                                        "max": "3000"}),
+                   'alto_mm':  forms.NumberInput(attrs={"min": "100",
+                                                        "max": "3000"}),
+                   'tipo':     forms.Select(attrs={"class": "tipo-select"})}
