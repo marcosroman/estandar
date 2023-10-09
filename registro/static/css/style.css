@@ -9,6 +9,8 @@ nav {
 	justify-content: space-between;
 	max-width: 100%;
 	background-color: #333;
+	position: sticky;
+	top: 0;
 }
 
 /* Dropdown Button */
